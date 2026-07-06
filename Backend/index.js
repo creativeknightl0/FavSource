@@ -7,26 +7,28 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'));
 
+const favActresses = {
+    1: {
+        name: 'Leila George',
+        imgSrc: '/images/leila-george.jpg',
+        firstSaw: 'Disclaimer'
+    },
+    2: {
+        name: 'Jessica Brown Findlay',
+        imgSrc: '/images/jessica-brown-findlay.jpg',
+        firstSaw: 'Brave New World'
+    },
+    3: {
+        name: 'Sophia Myles',
+        imgSrc: '/images/sophia-myles.jpg',
+        firstSaw: 'Hallam Foe'
+    }
+};
+
 app.get('/favActress/:id', (req, res) => {
     const { id } = req.params;
-    const favActresses = [
-        {
-            name: 'Leila George',
-            imgSrc: '/images/leila-george.jpg',
-            firstSaw: 'Disclaimer'
-        },
-        {
-            name: 'Jessica Brown Findlay',
-            imgSrc: '/images/jessica-brown-findlay.jpg',
-            firstSaw: 'Brave New World'
-        },
-        {
-            name: 'Sophia Myles',
-            imgSrc: '/images/sophia-myles.jpg',
-            firstSaw: 'Hallam Foe'
-        }
-    ];
-    res.render('actress-page', { favActresses, id });
+    const particularActress = favActresses[id];
+    res.render('actress-page', { particularActress });
 })
 
 app.listen(3000, () => {
