@@ -8,4 +8,8 @@ An all-in-one place where your favourite resources live. Maybe breathing too jk.
 
 #### Mobile
 <img width="648" height="1280" alt="image" src="https://github.com/user-attachments/assets/5b72363d-563a-48c1-bf0e-234000731ea6" />
-<img width="576" height="1280" alt="image" src="https://github.com/user-attachments/assets/c7e61d01-af39-412e-b8a6-64dc5d34a846" />
+
+## Day 2 Progress
+### Screenshots
+#### Changed from looping array of objects to showing specific page based content
+<img width="2560" height="1440" alt="Screenshot_07-Jul_06-35-52_17940" src="https://github.com/user-attachments/assets/db5e74ac-b78d-4365-b25b-23af7720b5b5" />
