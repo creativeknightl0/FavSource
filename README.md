@@ -13,3 +13,7 @@ An all-in-one place where your favourite resources live. Maybe breathing too jk.
 ### Screenshots
 #### Changed from looping array of objects to showing specific page based content
 <img width="2560" height="1440" alt="Screenshot_07-Jul_06-35-52_17940" src="https://github.com/user-attachments/assets/db5e74ac-b78d-4365-b25b-23af7720b5b5" />
+
+## Day 3 Progress
+### Screenshots
+<img width="2560" height="1440" alt="Screenshot_08-Jul_07-06-37_19625" src="https://github.com/user-attachments/assets/b0f10213-6c6d-4c46-bccc-7ec20fe43970" />
