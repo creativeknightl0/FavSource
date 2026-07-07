@@ -7,15 +7,13 @@
 </head>
 <body>
     <div style="display: flex; flex-direction: column; gap: 8px;">
-        <% for(const f of favActresses) { %>
-            <div style="display: flex; flex-direction: column; border: 1px solid black; border-radius: 16px; background-color: black; color: white;">
-                <img src="<%= f.imgSrc %>" alt="Image" style="border-radius: 16px;">
-                <div style="display: flex; flex-direction: column; align-items: center;">
-                    <p><%= f.name %></p>
-                    <p><%= f.firstSaw %></p>
-                </div>
+        <div style="display: flex; flex-direction: column; border: 1px solid black; border-radius: 16px; background-color: black; color: white;">
+            <img src="<%= particularActress.imgSrc %>" alt="Image" style="border-radius: 16px;">
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <p><%= particularActress.name %></p>
+                <p><%= particularActress.firstSaw %></p>
             </div>
-        <% } %>
+        </div>
     </div>
 </body>
 </html>
