@@ -10,7 +10,7 @@ function FirstPage() {
     return (
         <div className="flex flex-col justify-center items-center">
           <h1>Favourite Actresses</h1>
-          <button className="p-2 bg-white rounded-lg text-black cursor-pointer" onClick={startFunc}>Start</button>
+          <button className="p-2 rounded bg-black text-white cursor-pointer" onClick={startFunc}>Start</button>
         </div>
     );
 }

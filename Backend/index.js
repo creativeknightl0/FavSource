@@ -1,8 +1,10 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const cors = require('cors');
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'));
@@ -51,7 +53,6 @@ app.get('/favActress/:id', (req, res) => {
 })
 
 app.get('/actress/:id', (req, res) => {
-    console.log('got get request from react frontend');
     const {id} = req.params;
     res.send(actresses[id]);
 })
