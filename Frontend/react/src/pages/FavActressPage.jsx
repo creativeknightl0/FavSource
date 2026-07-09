@@ -11,11 +11,8 @@ function FavActressPage() {
         try {
             const getData = (async() => {
                 const jsonData = await axios.get(`http://localhost:3000/actress/${id}`);
-                console.log(jsonData);
                 const singleActressData = jsonData.data;
-                console.log(singleActressData);
                 const actressImage = singleActressData.imgSrc;
-                console.log(actressImage);
                 setImg(actressImage);
                 setName(singleActressData.name);
                 setFirstSaw(singleActressData.firstSaw);
@@ -27,13 +24,25 @@ function FavActressPage() {
         }
     }, [id]);
 
+    const handleNext = () => {
+        setId(prevId => prevId + 1);
+    }
+
+    const handlePrev = () => {
+        setId(prevId => prevId - 1);
+    }
+
     return (
-        <div className="flex flex-col justify-center items-center bg-black rounded-lg">
-            <img src={img} alt="Image" className="rounded-lg" />
-            <div>
-                <h3 className="text-white">Name - {name}</h3>
-                <p className="text-white">First Saw - {firstSaw}</p>
+        <div className="flex justify-center items-center gap-2">
+            {id !== 1 && <button className="p-2 border rounded bg-black text-white cursor-pointer" onClick={handlePrev}>Prev</button>}
+            <div className="flex flex-col justify-center items-center bg-black rounded-lg">
+                <img src={img} alt="Image" className="rounded-lg" />
+                <div>
+                    <h3 className="text-white">Name - {name}</h3>
+                    <p className="text-white">First Saw - {firstSaw}</p>
+                </div>
             </div>
+            {id !== 3 && <button className="p-2 border rounded bg-black text-white cursor-pointer" onClick={handleNext}>Next</button>}
         </div>
     )
 }
