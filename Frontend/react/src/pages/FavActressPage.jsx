@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 function FavActressPage() {
@@ -6,6 +7,7 @@ function FavActressPage() {
     const [img, setImg] = useState('');
     const [name, setName] = useState('');
     const [firstSaw, setFirstSaw] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         try {
@@ -16,6 +18,7 @@ function FavActressPage() {
                 setImg(actressImage);
                 setName(singleActressData.name);
                 setFirstSaw(singleActressData.firstSaw);
+                navigate(`/actress/${id}`);
             });
             getData();
         }
@@ -32,17 +35,24 @@ function FavActressPage() {
         setId(prevId => prevId - 1);
     }
 
+    const newAddForm = () => {
+        navigate('/actress/new');
+    }
+
     return (
-        <div className="flex justify-center items-center gap-2">
-            {id !== 1 && <button className="p-2 border rounded bg-black text-white cursor-pointer" onClick={handlePrev}>Prev</button>}
-            <div className="flex flex-col justify-center items-center bg-black rounded-lg">
-                <img src={img} alt="Image" className="rounded-lg" />
-                <div>
-                    <h3 className="text-white">Name - {name}</h3>
-                    <p className="text-white">First Saw - {firstSaw}</p>
+        <div className="flex flex-col items-center gap-4">
+            <div className="flex justify-center items-center gap-2">
+                {id !== 1 && <button className="p-2 border rounded bg-black text-white cursor-pointer" onClick={handlePrev}>Prev</button>}
+                <div className="flex flex-col justify-center items-center bg-black rounded-lg">
+                    <img src={img} alt="Image" className="rounded-lg" />
+                    <div>
+                        <h3 className="text-white">Name - {name}</h3>
+                        <p className="text-white">First Saw - {firstSaw}</p>
+                    </div>
                 </div>
+                {id !== 3 && <button className="p-2 border rounded bg-black text-white cursor-pointer" onClick={handleNext}>Next</button>}
             </div>
-            {id !== 3 && <button className="p-2 border rounded bg-black text-white cursor-pointer" onClick={handleNext}>Next</button>}
+            <button className="p-2 bg-black text-white rounded cursor-pointer" onClick={newAddForm}>Add new</button>
         </div>
     )
 }

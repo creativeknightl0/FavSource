@@ -57,6 +57,11 @@ app.get('/actress/:id', (req, res) => {
     res.send(actresses[id]);
 })
 
+app.post('/actress', (req, res) => {
+    const {name, firstSaw} = req.body;
+    console.log(req.body);
+})
+
 app.listen(3000, () => {
     console.log('Backend listening on port 3000');
 })
