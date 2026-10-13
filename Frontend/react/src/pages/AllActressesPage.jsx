@@ -1,0 +1,35 @@
+import {useState, useEffect} from "react";
+import axios from "axios";
+
+export default function AllActressesPage() {
+    const [actressesData, setActressesData] = useState();
+
+    console.log('Actresses Data: ', actressesData);
+
+    useEffect(() => {
+        // api call to GET /actresses on backend server port to get all the actresses data at once
+        const getActresses = async() => {
+            const apiCall = await axios.get('http://localhost:3000/actresses');
+            const data = apiCall.data;
+            setActressesData(data);
+        }
+        getActresses();
+    }, []);
+
+    return (
+        <div className="flex flex-col">
+            <h1>GET /actresses - show all actresses</h1>
+            <div className="grid grid-cols-3 gap-2 p-4">
+                {actressesData && actressesData.map((actress) => {
+                    return (
+                        <div className="bg-black text-white rounded-xl">
+                            <img src={actress.imgSrc} alt="Image" className="rounded-lg" />
+                            <p>{actress.name}</p>
+                            <p>First Saw - {actress.firstSaw}</p>
+                        </div>
+                    )
+                })}
+            </div>
+        </div>
+    )
+}

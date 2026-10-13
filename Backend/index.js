@@ -2,6 +2,16 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const cors = require('cors');
+const mongoose = require('mongoose');
+const Actress = require('./models/actress');
+
+mongoose.connect('mongodb://localhost:27017/actress-real-data')
+    .then(() => {
+        console.log('Mongoose connected to mongodb successfuly :)');
+    })
+    .catch(e => {
+        console.log('The connection between mongoose and mongodb failed :( ', e);
+    })
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
@@ -60,6 +70,15 @@ app.get('/actress/:id', (req, res) => {
 app.post('/actress', (req, res) => {
     const {name, firstSaw} = req.body;
     console.log(req.body);
+})
+
+// RESTful APIs - with real mongodb saved data
+
+// GET /actresses - to see all the actresses on a page
+app.get('/actresses', async(req, res) => {
+    const showAllActresses = await Actress.find();
+    console.log('Time to send it to frontend: ' + showAllActresses);
+    res.send(showAllActresses);
 })
 
 app.listen(3000, () => {
