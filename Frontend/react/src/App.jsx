@@ -3,6 +3,7 @@ import FirstPage from "./pages/FirstPage";
 import FavActressPage from "./pages/FavActressPage";
 import NewActressAdd from "./pages/NewActressAdd";
 import AllActressesPage from "./pages/AllActressesPage";
+import NewActressAddPage from "./pages/NewActressAddPage";
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
 
       {/* v2 with real data inside the mongodb and with RESTful api callings */}
       <Route path="/actresses" element={<AllActressesPage />} />
+      <Route path="/actresses/new" element={<NewActressAddPage />} />
     </Routes>
   )
 }
