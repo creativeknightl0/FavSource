@@ -15,6 +15,8 @@ mongoose.connect('mongodb://localhost:27017/actress-real-data')
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
+app.use(express.urlencoded({extended: true}))
+app.use(express.json());
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'));
@@ -79,6 +81,15 @@ app.get('/actresses', async(req, res) => {
     const showAllActresses = await Actress.find();
     console.log('Time to send it to frontend: ' + showAllActresses);
     res.send(showAllActresses);
+})
+
+// POST /actresses - to create new actress record
+app.post('/actresses', async(req, res) => {
+    console.log('Hitted server-side');
+    console.log(req.body);
+    const {name, imgSrc, firstSaw} = req.body;
+    console.log(imgSrc + ' ' + typeof(imgSrc));
+    console.log(typeof(name));
 })
 
 app.listen(3000, () => {
