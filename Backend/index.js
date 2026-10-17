@@ -2,9 +2,23 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const cors = require('cors');
+const mongoose = require('mongoose');
+const Actress = require('./models/actress');
+const fs = require('fs');
+const util = require('util');
+
+mongoose.connect('mongodb://localhost:27017/actress-real-data')
+    .then(() => {
+        console.log('Mongoose connected to mongodb successfuly :)');
+    })
+    .catch(e => {
+        console.log('The connection between mongoose and mongodb failed :( ', e);
+    })
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
+app.use(express.urlencoded({extended: true}))
+app.use(express.json());
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'));
@@ -60,6 +74,28 @@ app.get('/actress/:id', (req, res) => {
 app.post('/actress', (req, res) => {
     const {name, firstSaw} = req.body;
     console.log(req.body);
+})
+
+// RESTful APIs - with real mongodb saved data
+
+// GET /actresses - to see all the actresses on a page
+app.get('/actresses', async(req, res) => {
+    const showAllActresses = await Actress.find();
+    console.log('Time to send it to frontend: ' + showAllActresses);
+    res.send(showAllActresses);
+})
+
+// POST /actresses - to create new actress record
+app.post('/actresses', async(req, res) => {
+    console.log('Hitted server-side');
+    console.log(req.body);
+    const {name, imgSrc, firstSaw} = req.body;
+    console.log(imgSrc + ' ' + typeof(imgSrc));
+    console.log(name + ' ' + typeof(name));
+    console.log(firstSaw + ' ' + typeof(firstSaw));
+    console.log(util.inspect(imgSrc, {showHidden: false, depth: null, colors: true}));
+    const folderName = 'public/images';
+    fs.writeFileSync(`${folderName}/${imgSrc}`, '');
 })
 
 app.listen(3000, () => {
