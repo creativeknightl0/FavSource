@@ -3,12 +3,25 @@ import axios from 'axios';
 
 export default function NewActressAddPage() {
     const [name, setName] = useState('');
-    const [imgSrc, setImgSrc] = useState('');
+    const [imgSrc, setImgSrc] = useState();
     const [firstSaw, setFirstSaw] = useState('');
 
     console.log('Name: ' + name);
     console.log('Image Src: ' + imgSrc + ' ' + typeof(imgSrc));
     console.log('First Saw: ' + firstSaw);
+
+    const handleImgPreview = () => {
+        const file = document.querySelector('#imgSrc');
+        const preview = document.querySelector('#preview');
+        console.log('file: ' + file);
+        console.log('file.value: ' + file.value);
+        const currFile = file.files[0];
+        console.log('current file: ' + currFile);
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(currFile);
+        setImgSrc(img);
+        preview.appendChild(img);
+    }
 
     const postRequestFunc = async(evt) => {
         evt.preventDefault();
@@ -32,10 +45,10 @@ export default function NewActressAddPage() {
                     <label htmlFor="name">Name:</label>
                     <input type="text" className="border" id="name" name="name" onChange={(e) => setName(e.target.value)} />
                 </div>
-                <div>
+                <div className="flex">
                     <label htmlFor="imgSrc">Image:</label>
-                    <input type="file" name="imgSrc" id="imgSrc" className="border bg-yellow-200 cursor-pointer" onChange={(e) => setImgSrc(e.target.value)} />
-                    <img src={imgSrc} alt="Uploaded image" />
+                    <input type="file" name="imgSrc" id="imgSrc" className="border bg-yellow-200 cursor-pointer" onChange={handleImgPreview} />
+                    <div id="preview"></div>
                 </div>
                 <div>
                     <label htmlFor="firstSaw">First Saw:</label>

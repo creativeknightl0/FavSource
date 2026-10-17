@@ -4,6 +4,8 @@ const path = require('path');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const Actress = require('./models/actress');
+const fs = require('fs');
+const util = require('util');
 
 mongoose.connect('mongodb://localhost:27017/actress-real-data')
     .then(() => {
@@ -89,7 +91,11 @@ app.post('/actresses', async(req, res) => {
     console.log(req.body);
     const {name, imgSrc, firstSaw} = req.body;
     console.log(imgSrc + ' ' + typeof(imgSrc));
-    console.log(typeof(name));
+    console.log(name + ' ' + typeof(name));
+    console.log(firstSaw + ' ' + typeof(firstSaw));
+    console.log(util.inspect(imgSrc, {showHidden: false, depth: null, colors: true}));
+    const folderName = 'public/images';
+    fs.writeFileSync(`${folderName}/${imgSrc}`, '');
 })
 
 app.listen(3000, () => {
