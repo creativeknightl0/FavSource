@@ -6,12 +6,11 @@ function NewActressAdd() {
     return (
         <div>
             <h1>Add New Actress - for POST /actress</h1>
-            <form className="flex flex-col items-center" action="http://localhost:3000/actress" method="post">
+            <form className="flex flex-col items-center" action="http://localhost:3000/actress" method="POST" enctype="multipart/form-data">
                 <label htmlFor="name">Name:</label>
                 <input className="border" type="text" name="name" id="name" />
-                {/* <label htmlFor="imgSrc">Image Path:</label>
-                <input type="text" name="imgSrc" id="imgSrc" />
-                 */}
+                <label htmlFor="imgSrc">Image:</label>
+                <input type="file" name="imgSrc" id="imgSrc" className="border cursor-pointer" />
                 <label htmlFor="firstSaw">First Saw:</label>
                 <input className="border" type="text" name="firstSaw" id="firstSaw" />
                 <button className="p-2 bg-black rounded text-white cursor-pointer mt-4">Submit</button>

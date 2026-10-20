@@ -28,7 +28,7 @@ export default function AllActressesPage() {
             <div className="grid sm:grid-cols-3 gap-2 p-4">
                 {actressesData && actressesData.map((actress) => {
                     return (
-                        <div className="bg-black text-white rounded-xl">
+                        <div className="bg-black text-white rounded-xl cursor-pointer" onClick={() => navigate(`/actresses/${actress._id}`)}>
                             <img src={actress.imgSrc} alt="Image" className="rounded-lg w-full h-50" />
                             <p>{actress.name}</p>
                             <p>First Saw - {actress.firstSaw}</p>
