@@ -5,7 +5,6 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const Actress = require('./models/actress');
 const fs = require('fs');
-const util = require('util');
 const multer = require('multer');
 
 // without this, multer stores all files as file type not with no extensions like png, jpg etc meaning we have to download the file before seeing it so basically its unusable so storage setup with filename function is important to setup
@@ -87,7 +86,7 @@ app.get('/actress/:id', (req, res) => {
 
 app.post('/actress', upload.single('imgSrc'), (req, res) => {
     console.log(req.body);
-    console.log(req.files);
+    console.log(req.file);
 })
 
 // RESTful APIs - with real mongodb saved data
@@ -108,10 +107,12 @@ app.get('/actresses/:id', async(req, res) => {
 
 // POST /actresses - to create new actress record
 app.post('/actresses', upload.single('imgSrc'), async(req, res) => {
-    console.log('Hitted server-side');
-    console.log(req.file);
+    // console.log('Hitted server-side');
+    // console.log('req.body: ' + JSON.stringify(req.body)); // for multipart/form-data or FormData sent we have to stringify it to see the data otherwise it shows 'cannot convert object to primitive value' error
+    // console.log(req.file);
     const {name, firstSaw} = req.body;
-    // console.log(util.inspect(imgSrc, {showHidden: false, depth: null, colors: true}));
+    // console.log(name + ' ' + firstSaw);
+    // as multer handles both reading file and uploading it to be able to read on backend so nodejs own tool fs is not needed
     // const folderName = 'public/images';
     // fs.writeFileSync(`${folderName}/${imgSrc}`, '');
     // const imgSrc = `http://localhost:3000/images/${req.file.filename}`; // store the path of the image stored on express server hosted
@@ -119,7 +120,7 @@ app.post('/actresses', upload.single('imgSrc'), async(req, res) => {
     // as image is stored by multer already in the folder for showing prupose on backend side - so we will collect the correct path on which image is hosted and then store it in mongodb
     const imagePath = `http://localhost:3000/images/${req.file.originalname}`;
 
-    // instantiate the model with new data we have
+    // // instantiate the model with new data we have
     const newActressRecord = new Actress({name, imgSrc: imagePath, firstSaw});
     // // save in mongoddb
     newActressRecord.save()
@@ -129,7 +130,9 @@ app.post('/actresses', upload.single('imgSrc'), async(req, res) => {
         .catch(e => {
             console.log('Error occurred while saving data on mongodb: ' + e);
         })
-    res.redirect('http://localhost:5173/actresses');
+    // res.redirect('http://localhost:5173/actresses'); // don't work for axios, only simple form request
+    const navigationPath = '/actresses';
+    res.send(navigationPath);
 })
 
 app.listen(3000, () => {

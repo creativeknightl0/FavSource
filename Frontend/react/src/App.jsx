@@ -11,7 +11,7 @@ function App() {
   return (
     <Routes>
       {/* v1 with fake data */}
-      <Route path="/" element={<FirstPage />}/>
+      <Route path="/actress" element={<FirstPage />}/>
       <Route path="/actress/:id" element={<FavActressPage />} />
       <Route path="/actress/new" element={<NewActressAdd />} />
 
