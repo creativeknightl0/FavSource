@@ -1,10 +1,22 @@
+import {useState, useEffect} from 'react';
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 function FirstPage() {
     const navigate = useNavigate();
+    const [firstId, setFirstId] = useState('');
+
+    useEffect(() => {
+        const getFirstActressData = async() => {
+            const data = await axios.get('http://localhost:3000/actress');
+            setFirstId(data.data.id);
+        }
+        getFirstActressData();
+    }, [])
 
     const startFunc = () => {
-        navigate('/actress/1');
+        console.log(firstId);
+        navigate(`/actress/${firstId}`);
     }
 
     return (

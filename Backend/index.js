@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const Actress = require('./models/actress');
 const fs = require('fs');
 const multer = require('multer');
+const {v4: uuid} = require('uuid');
 
 // without this, multer stores all files as file type not with no extensions like png, jpg etc meaning we have to download the file before seeing it so basically its unusable so storage setup with filename function is important to setup
 const storage = multer.diskStorage({
@@ -36,42 +37,26 @@ app.use(express.json());
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'));
 
-const favActresses = {
-    1: {
+const favActresses = [
+    {
+        id: 1,
         name: 'Leila George',
         imgSrc: '/images/leila-george.jpg',
         firstSaw: 'Disclaimer'
     },
-    2: {
+    {
+        id: 2,
         name: 'Jessica Brown Findlay',
         imgSrc: '/images/jessica-brown-findlay.jpg',
         firstSaw: 'Brave New World'
     },
-    3: {
+    {
+        id: 3,
         name: 'Sophia Myles',
         imgSrc: '/images/sophia-myles.jpg',
         firstSaw: 'Hallam Foe'
     }
-};
-
-// fake db for json data sending (duplicate of above favActresses - object of ojects)
-const actresses = {
-    "1": {
-        "name": "Leila George",
-        "imgSrc": "http://localhost:3000/images/leila-george.jpg",
-        "firstSaw": "Disclaimer"
-    },
-    "2": {
-        "name": "Jessica Brown Findlay",
-        "imgSrc": "http://localhost:3000/images/jessica-brown-findlay.jpg",
-        "firstSaw": "Brave New World"
-    },
-    "3": {
-        "name": "Sophia Myles",
-        "imgSrc": "http://localhost:3000/images/sophia-myles.jpg",
-        "firstSaw": "Hallam Foe"
-    }
-}
+];
 
 app.get('/favActress/:id', (req, res) => {
     const { id } = req.params;
@@ -79,14 +64,59 @@ app.get('/favActress/:id', (req, res) => {
     res.render('actress-page', { particularActress });
 })
 
+// fake db for json data sending (duplicate of above favActresses - array of ojects)
+const actresses = [
+    {
+        id: uuid(),
+        name: "Leila George",
+        imgSrc: "http://localhost:3000/images/leila-george.jpg",
+        firstSaw: "Disclaimer"
+    },
+    {
+        id: uuid(),
+        name: "Jessica Brown Findlay",
+        imgSrc: "http://localhost:3000/images/jessica-brown-findlay.jpg",
+        firstSaw: "Brave New World"
+    },
+    {
+        id: uuid(),
+        name: "Sophia Myles",
+        imgSrc: "http://localhost:3000/images/sophia-myles.jpg",
+        firstSaw: "Hallam Foe"
+    }
+]
+
+app.get('/actress', (req, res) => {
+    res.send(actresses[0]);
+})
+
+app.get('/actress/ids', (req, res) => {
+    let ids = [];
+    for(const act of actresses) {
+        ids.push(act.id);
+    }
+    res.send(ids);
+})
+
 app.get('/actress/:id', (req, res) => {
     const {id} = req.params;
-    res.send(actresses[id]);
+    let partActress;
+    for(const act of actresses) {
+        if(act.id === id) {
+            partActress = act;
+        }
+    }
+    res.send(partActress);
 })
 
 app.post('/actress', upload.single('imgSrc'), (req, res) => {
     console.log(req.body);
     console.log(req.file);
+    const {name, firstSaw} = req.body;
+    const imgSrcPath = `http://localhost:3000/images/${req.file.filename}`;
+    actresses.push({id: uuid(), name: name, imgSrc: imgSrcPath, firstSaw: firstSaw});
+    console.log(actresses);
+    res.redirect(`http://localhost:5173/actress/${actresses[actresses.length - 1].id}`);
 })
 
 // RESTful APIs - with real mongodb saved data
