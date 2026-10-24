@@ -110,13 +110,15 @@ app.get('/actress/:id', (req, res) => {
 })
 
 app.post('/actress', upload.single('imgSrc'), (req, res) => {
-    console.log(req.body);
-    console.log(req.file);
     const {name, firstSaw} = req.body;
     const imgSrcPath = `http://localhost:3000/images/${req.file.filename}`;
     actresses.push({id: uuid(), name: name, imgSrc: imgSrcPath, firstSaw: firstSaw});
-    console.log(actresses);
     res.redirect(`http://localhost:5173/actress/${actresses[actresses.length - 1].id}`);
+})
+
+app.put('/actress', upload.single('imgSrc'), (req, res) => {
+    console.log(req.body);
+    console.log(req.file);
 })
 
 // RESTful APIs - with real mongodb saved data

@@ -71,7 +71,7 @@ function FavActressPage() {
                 {(currId !== allIds[0]) && (
                     <button className="p-2 border rounded bg-black text-white cursor-pointer" onClick={() => handlePrev(currId)}>Prev</button>
                 )}
-                <div className="flex flex-col justify-center items-center bg-black rounded-lg">
+                <div className="flex flex-col justify-center items-center bg-black rounded-lg cursor-pointer" onClick={() => navigate(`/actress/${currId}/edit`)}>
                     <img src={img} alt="Image" className="rounded-lg" />
                     <div>
                         <h3 className="text-white">Name - {name}</h3>
