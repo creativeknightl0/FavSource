@@ -8,8 +8,11 @@ export default function EditExistingActress() {
     const [name, setName] = useState('');
     const [imgSrc, setImgSrc] = useState(null);
     const [firstSaw, setFirstSaw] = useState('');
+    const [isImgPreviewVisible, setIsImgPreviewVisible] = useState(true);
+    const [isFileInputVisible, setIsFileInputVisible] = useState(false);
     const navigate = useNavigate();
-    const urlForForm = `http://localhost:3000/actress/${id}?_method=PUT`;
+    const urlForUpdateForm = `http://localhost:3000/actress/${id}?_method=PUT`;
+    const urlForDeleteForm = `http://localhost:3000/actress/${id}?_method=DELETE`;
 
     useEffect(() => {
         const initialData = async() => {
@@ -22,36 +25,32 @@ export default function EditExistingActress() {
         initialData();
     }, []);
 
-    const handleChangePreview = () => {
-        console.log('Change Preview');
+    const handleChangePreview = (e) => {
+        const fileSelected = e.target.files[0];
+        setIsImgPreviewVisible(true);
+        setImgSrc(URL.createObjectURL(fileSelected));
     }
 
     const handleRemoveImage = () => {
-        const selectImgDiv = document.querySelector('#imgDiv');
-        const selectImg = document.querySelector('#preview');
-        selectImgDiv.removeChild(selectImg);
-        const createFileInp = document.createElement('input');
-        createFileInp.type = 'file';
-        createFileInp.className = 'border bg-yellow-200';
-        createFileInp.onClick = handleChangePreview();
-        console.log(createFileInp);
-        selectImgDiv.appendChild(createFileInp);
+        setIsImgPreviewVisible(false);
+        setIsFileInputVisible(true);
     }
 
     return (
         <div>
             <h1>PUT /actress/:id - to edit the existing actress data</h1>
-            <form action={urlForForm} method="POST" className="flex flex-col items-center gap-2">
+            <form action={urlForUpdateForm} method="POST" className="flex flex-col items-center gap-2" encType="multipart/form-data">
                 <div className="flex flex-col">
                     <label htmlFor="name">Name:</label>
                     <input type="text" name="name" id="name" className="border" defaultValue={name} />
                 </div>
                 <div id='imgDiv' className="flex flex-col">
                     <label htmlFor="imgSrc">ImgSrc:</label>
-                    <div id="preview" className='flex flex-col items-center gap-2'>
-                        <img src={imgSrc} alt="Image" />
+                    {isFileInputVisible && <input type="file" name="imgSrc" id="imgSrc" className="border bg-yellow-200" onChange={(e) => handleChangePreview(e)} />}
+                    {isImgPreviewVisible && <div id="preview" className='flex flex-col items-center gap-2'>
+                        <img id="image" src={imgSrc} alt="Image" />
                         <button className='rounded p-2 bg-red-500 text-white cursor-pointer' onClick={handleRemoveImage}>X</button>
-                    </div>
+                    </div>}
                 </div>
                 <div className="flex flex-col">
                     <label htmlFor="firstSaw">First Saw:</label>
@@ -59,7 +58,12 @@ export default function EditExistingActress() {
                 </div>
                 <button className="bg-black text-white rounded-lg p-1 cursor-pointer mt-4">Submit</button>
             </form>
-            <button className="border rounded-lg p-1 mt-2 cursor-pointer" onClick={() => navigate('/actress')}>Go Back</button>
+            <div className='mt-2 flex justify-center gap-2'>
+                <form action={urlForDeleteForm} method="POST">
+                    <button className='border border-red-500 rounded-lg p-1 cursor-pointer text-red-500'>Delete</button>
+                </form>
+                <button className="border rounded-lg p-1 cursor-pointer" onClick={() => navigate('/actress')}>Go Back</button>
+            </div>
         </div>
     )
 }

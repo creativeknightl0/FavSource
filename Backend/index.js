@@ -7,6 +7,7 @@ const Actress = require('./models/actress');
 const fs = require('fs');
 const multer = require('multer');
 const {v4: uuid} = require('uuid');
+const methodOverride = require('method-override');
 
 // without this, multer stores all files as file type not with no extensions like png, jpg etc meaning we have to download the file before seeing it so basically its unusable so storage setup with filename function is important to setup
 const storage = multer.diskStorage({
@@ -33,6 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 app.use(express.urlencoded({extended: true}))
 app.use(express.json());
+app.use(methodOverride('_method'));
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'));
@@ -86,10 +88,12 @@ const actresses = [
     }
 ]
 
+// GET /actress - show all the actress data
 app.get('/actress', (req, res) => {
     res.send(actresses[0]);
 })
 
+// GET /actress/ids - show all the actress ids
 app.get('/actress/ids', (req, res) => {
     let ids = [];
     for(const act of actresses) {
@@ -98,6 +102,7 @@ app.get('/actress/ids', (req, res) => {
     res.send(ids);
 })
 
+// GET /actress/:id - show particular actress
 app.get('/actress/:id', (req, res) => {
     const {id} = req.params;
     let partActress;
@@ -109,16 +114,39 @@ app.get('/actress/:id', (req, res) => {
     res.send(partActress);
 })
 
+// POST /actress - to create mew actress data
 app.post('/actress', upload.single('imgSrc'), (req, res) => {
     const {name, firstSaw} = req.body;
     const imgSrcPath = `http://localhost:3000/images/${req.file.filename}`;
     actresses.push({id: uuid(), name: name, imgSrc: imgSrcPath, firstSaw: firstSaw});
+    console.log(actresses);
     res.redirect(`http://localhost:5173/actress/${actresses[actresses.length - 1].id}`);
 })
 
-app.put('/actress', upload.single('imgSrc'), (req, res) => {
-    console.log(req.body);
-    console.log(req.file);
+// UPDATE /actress/:id - to update particular actress
+app.put('/actress/:id', upload.single('imgSrc'), (req, res) => {
+    const {id} = req.params;
+    const {name, firstSaw} = req.body;
+    const remakePathForMongoDB = `http://localhost:3000/images/${req.file.originalname}`;
+    for(let i = 0; i < actresses.length; i++) {
+        if(actresses[i].id === id) {
+            actresses.splice(i, 1, {id: id, name: name, imgSrc: remakePathForMongoDB, firstSaw: firstSaw}); // splice(start, deleteCount, items_to_be_added)
+        }
+    }
+    console.log(actresses);
+    res.redirect(`http://localhost:5173/actress/${id}`);
+})
+
+// DELETE /actress/:id - to delete the actress data
+app.delete('/actress/:id', (req, res) => {
+    const {id} = req.params;
+    for(let i=0; i<actresses.length; i++) {
+        if(actresses[i].id === id) {
+            actresses.splice(i, 1);
+        }
+    }
+    console.log(actresses);
+    res.redirect('http://localhost:5173/actress');
 })
 
 // RESTful APIs - with real mongodb saved data
