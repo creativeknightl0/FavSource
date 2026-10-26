@@ -8,9 +8,9 @@ export default function NewActressAddPage() {
     const [firstSaw, setFirstSaw] = useState('');
     const navigate = useNavigate();
 
-    console.log('Name: ' + name);
-    console.log('Image Src: ' + imgSrc + ' ' + typeof(imgSrc));
-    console.log('First Saw: ' + firstSaw);
+    // console.log('Name: ' + name);
+    // console.log('Image Src: ' + imgSrc + ' ' + typeof(imgSrc));
+    // console.log('First Saw: ' + firstSaw);
 
     const handleSetImgSrcAndShowPreview = (e) => {
         setImgSrc(e.target.files[0]);

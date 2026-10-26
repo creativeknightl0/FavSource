@@ -6,6 +6,7 @@ import EditExistingActress from "./pages/EditExistingActress";
 import AllActressesPage from "./pages/AllActressesPage";
 import NewActressAddPage from "./pages/NewActressAddPage";
 import ParticularActressPage from "./pages/ParticularActressPage";
+import EditParticularActressPage from "./pages/EditParticularActressPage";
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
       <Route path="/actresses" element={<AllActressesPage />} />
       <Route path="/actresses/new" element={<NewActressAddPage />} />
       <Route path="/actresses/:id" element={<ParticularActressPage />} />
+      <Route path="/actresses/:id/edit" element={<EditParticularActressPage />} />
     </Routes>
   )
 }

@@ -162,6 +162,7 @@ app.get('/actresses', async(req, res) => {
 app.get('/actresses/:id', async(req, res) => {
     const {id} = req.params;
     const particularActress = await Actress.findById(id);
+    console.log('particularActress: ' + particularActress);
     res.send(particularActress);
 })
 
