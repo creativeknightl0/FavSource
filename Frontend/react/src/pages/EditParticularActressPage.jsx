@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import {useParams} from 'react-router-dom';
+import {useParams, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 export default function EditParticularActressPage() {
@@ -10,6 +10,7 @@ export default function EditParticularActressPage() {
     const [isFileInpVisible, setIsFileInpVisible] = useState(true);
     const params = useParams();
     const {id} = params;
+    const navigate = useNavigate();
     console.log('id: ' + id);
 
     useEffect(() => {
@@ -46,15 +47,30 @@ export default function EditParticularActressPage() {
         setIsFileInpVisible(false);
     }
 
-    const handleUpdateForm = (e) => {
+    const handleUpdateForm = async(e) => {
         e.preventdefault();
-        console.log('Submit form');
+        console.log('handle update form clicked');
+        // const formData = new FormData();
+        // formData.append(name);
+        // formData.append(imgSrc);
+        // formData.append(firstSaw);
+        // const apiCall = await axios.put(`http://localhost:3000/actresses/${id}`,
+        //     formData,
+        //     {
+        //         headers: {
+        //             'Content-Type': 'multipart/form-data'
+        //         }
+        //     }
+        // )
+        // console.log('apiCall put: ' + apiCall);
+        // const data = apiCall.data;
+        // console.log('data put: ' + data);
     }
 
     return (
         <div>
             <h1 className="text-center leading-10">PUT /actresses/:id - to update the particular actress data</h1>
-            <form onSubmit={e => handleUpdateForm(e)} className='flex flex-col items-center gap-2' encType="multipart/form-data">
+            <form onSubmit={handleUpdateForm} method="POST" className='flex flex-col items-center gap-2'>
                 <div className='flex flex-col'>
                     <label htmlFor="name">Name:</label>
                     <input type="text" id="name" name="name" className='border' defaultValue={name} />
@@ -73,7 +89,7 @@ export default function EditParticularActressPage() {
                 </div>
                 <button className='bg-black text-white p-1 rounded-lg cursor-pointer mt-4'>Submit</button>
             </form>
-            <button className='border p-1 rounded-lg mt-2 cursor-pointer'>Go Back</button>
+            <button className='border p-1 rounded-lg mt-2 cursor-pointer' onClick={() => navigate(`/actresses/${id}`)}>Go Back</button>
         </div>
     )
 }

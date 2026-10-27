@@ -196,6 +196,13 @@ app.post('/actresses', upload.single('imgSrc'), async(req, res) => {
     res.send(navigationPath);
 })
 
+// PUT /actresses/:id - to update the particular actress's data
+app.put('/actresses/:id', upload.single('imgSrc'), async(req, res) => {
+    console.log('Hitted PUT REST API');
+    console.log('req.body: ' + JSON.stringify(req.body));
+    console.log('req.file: ' + req.file);
+})
+
 app.listen(3000, () => {
     console.log('Backend listening on port 3000');
 })
