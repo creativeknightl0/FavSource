@@ -200,12 +200,29 @@ app.put('/actresses/:id', upload.single('imgSrc'), async(req, res) => {
     // console.log('req.file: ' + JSON.stringify(req.file)); // only showing [Object Object] unlike post where it showed full details even though the file is getting stored in the public/images folder in both cases - so the solution to solve the [object, object] issue is to JSON.stringify it and it shows content, and got to know it was caused due to parsing of object couldn't happen here
     const {id} = req.params;
     const {name, firstSaw} = req.body;
-    const {originalname} = req.file;
-    const imagePath = `http://localhost:3000/images/${originalname}`;
+    let imagePath;
+    if(req.file) {
+        const {originalname} = req.file;
+        imagePath = `http://localhost:3000/images/${originalname}`;
+    }
+    else {
+        const findExistingActressRecord = await Actress.findById(id);
+        imagePath = findExistingActressRecord.imgSrc;
+    }
     const updateActressData = await Actress.findByIdAndUpdate(id, {$set: {name: name, imgSrc: imagePath, firstSaw: firstSaw}}, {new: true, runValidators: true});
     console.log('updated data:' + updateActressData);
-    const navPath = '/actress';
-    res.redirect(navPath);
+    const navPath = '/actresses';
+    res.send(navPath);
+})
+
+// DELETE /actresses/:id - to delete the particular actress from the mongodb
+app.delete('/actresses/:id', async(req, res) => {
+    // console.log('Hitted server side delete route');
+    const {id} = req.params;
+    const deleteActress = await Actress.findByIdAndDelete(id);
+    console.log(deleteActress);
+    const navPath = '/actresses';
+    res.send(navPath);
 })
 
 app.listen(3000, () => {
