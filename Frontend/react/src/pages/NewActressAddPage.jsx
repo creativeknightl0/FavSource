@@ -9,18 +9,13 @@ export default function NewActressAddPage() {
     const navigate = useNavigate();
 
     // console.log('Name: ' + name);
-    // console.log('Image Src: ' + imgSrc + ' ' + typeof(imgSrc));
+    console.log('Image Src: ' + imgSrc + ' ' + typeof(imgSrc));
     // console.log('First Saw: ' + firstSaw);
 
     const handleSetImgSrcAndShowPreview = (e) => {
         setImgSrc(e.target.files[0]);
-        // const file = document.querySelector('#imgSrc');
         const currentFile = e.target.files[0];
         const preview = document.querySelector('#preview');
-        // console.log('file: ' + file);
-        // console.log('file.value: ' + file.value);
-        // const currFile = file.files[0];
-        // console.log('current file: ' + currFile);
         const img = document.createElement('img');
         img.src = URL.createObjectURL(currentFile);
         preview.appendChild(img);

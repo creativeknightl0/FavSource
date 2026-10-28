@@ -24,6 +24,13 @@ export default function ParticularActressPage() {
         navigate(`/actresses/${id}/edit`);
     }
 
+    const handleDeleteFunc = async(e) => {
+        e.preventDefault();
+        const apiCall = await axios.delete(`http://localhost:3000/actresses/${id}`);
+        const navigationPathData = apiCall.data;
+        navigate(`/${navigationPathData}`);
+    }
+    
     return (
         <div>
             <div className="bg-black p-4 text-white rounded-xl m-4">
@@ -35,6 +42,9 @@ export default function ParticularActressPage() {
                 <button className='border border-blue-500 bg-blue-500 p-2 rounded-lg cursor-pointer text-white' onClick={handleEditPage}>
                     Edit
                 </button>
+                <form>
+                    <button className='border border-red-500 p-2 rounded-lg text-white bg-red-500 cursor-pointer' onClick={handleDeleteFunc}>Delete</button>
+                </form>
                 <button className="border p-2 rounded-lg cursor-pointer text-black" onClick={handleGoBack}>
                     Go back
                 </button>

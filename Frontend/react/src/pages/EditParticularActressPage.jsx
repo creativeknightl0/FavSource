@@ -5,37 +5,32 @@ import axios from 'axios';
 export default function EditParticularActressPage() {
     const [name, setName] = useState('');
     const [imgSrc, setImgSrc] = useState(null);
+    const [imgSrcPreview, setImgSrcPreview] = useState(null);
     const [firstSaw, setFirstSaw] = useState('');
     const [isImgTagVisible, setIsImgTagVisible] = useState(true);
     const [isFileInpVisible, setIsFileInpVisible] = useState(true);
     const params = useParams();
     const {id} = params;
     const navigate = useNavigate();
-    console.log('id: ' + id);
 
     useEffect(() => {
         const initialExistingDataFetch = async() => {
             const apiCall = await axios.get(`http://localhost:3000/actresses/${id}`);
             console.log('apiCall: ' + apiCall);
             const data = apiCall.data;
-            console.log('data: ' + data);
-            console.log('name data: ' + data.name);
-            console.log('img data: ' + data.imgSrc);
-            console.log('first Saw data: ' + data.firstSaw);
             setName(data.name);
             setImgSrc(data.imgSrc);
+            setImgSrcPreview(data.imgSrc);
             setFirstSaw(data.firstSaw);
         }
         initialExistingDataFetch();
     }, []);
 
     const handleChangeImage = (e) => {
-        console.log('Change image');
+        setImgSrc(e.target.files[0]);
         const fileSelected = e.target.files[0];
-        console.log('fileSelected: ' + fileSelected);
         const createURLFromImgObject = URL.createObjectURL(fileSelected);
-        console.log('createURLFromImgObject: ' + createURLFromImgObject);
-        setImgSrc(createURLFromImgObject);
+        setImgSrcPreview(createURLFromImgObject);
         setIsFileInpVisible(true);
         setIsImgTagVisible(true);
     }
@@ -48,46 +43,44 @@ export default function EditParticularActressPage() {
     }
 
     const handleUpdateForm = async(e) => {
-        e.preventdefault();
-        console.log('handle update form clicked');
-        // const formData = new FormData();
-        // formData.append(name);
-        // formData.append(imgSrc);
-        // formData.append(firstSaw);
-        // const apiCall = await axios.put(`http://localhost:3000/actresses/${id}`,
-        //     formData,
-        //     {
-        //         headers: {
-        //             'Content-Type': 'multipart/form-data'
-        //         }
-        //     }
-        // )
-        // console.log('apiCall put: ' + apiCall);
-        // const data = apiCall.data;
-        // console.log('data put: ' + data);
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('imgSrc', imgSrc);
+        formData.append('firstSaw', firstSaw);
+        const apiCall = await axios.put(`http://localhost:3000/actresses/${id}`,
+            formData,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }
+        )
+        const navigationData = apiCall.data;
+        navigate(`${navigationData}/${id}`);
     }
 
     return (
         <div>
             <h1 className="text-center leading-10">PUT /actresses/:id - to update the particular actress data</h1>
-            <form onSubmit={handleUpdateForm} method="POST" className='flex flex-col items-center gap-2'>
+            <form className='flex flex-col items-center gap-2'>
                 <div className='flex flex-col'>
                     <label htmlFor="name">Name:</label>
-                    <input type="text" id="name" name="name" className='border' defaultValue={name} />
+                    <input type="text" id="name" name="name" className='border' defaultValue={name} onChange={(e) => setName(e.target.value)} />
                 </div>
                 <div className='flex flex-col'>
                     <label htmlFor="imgSrc">Image:</label>
                     <input type="file" name="imgSrc" id="imgSrc" className='border bg-yellow-200' onChange={(e) => handleChangeImage(e)} hidden={isFileInpVisible} />
                     {isImgTagVisible && <div className='flex flex-col items-center gap-2'>
-                        <img src={imgSrc} alt="Image" />
+                        <img src={imgSrcPreview} alt="Image" />
                         <div className='border border-red-500 p-2 bg-red-500 text-white rounded cursor-pointer' onClick={handleRemoveImage}>X</div>
                     </div>}
                 </div>
                 <div className='flex flex-col'>
                     <label htmlFor="firstSaw">First Saw:</label>
-                    <input type="text" name="firstSaw" id="firstSaw" className='border' defaultValue={firstSaw} />
+                    <input type="text" name="firstSaw" id="firstSaw" className='border' defaultValue={firstSaw} onChange={(e) => setFirstSaw(e.target.value)} />
                 </div>
-                <button className='bg-black text-white p-1 rounded-lg cursor-pointer mt-4'>Submit</button>
+                <button className='bg-black text-white p-1 rounded-lg cursor-pointer mt-4' onClick={handleUpdateForm}>Submit</button>
             </form>
             <button className='border p-1 rounded-lg mt-2 cursor-pointer' onClick={() => navigate(`/actresses/${id}`)}>Go Back</button>
         </div>
