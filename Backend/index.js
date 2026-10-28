@@ -154,7 +154,6 @@ app.delete('/actress/:id', (req, res) => {
 // GET /actresses - to see all the actresses on a page
 app.get('/actresses', async(req, res) => {
     const showAllActresses = await Actress.find();
-    console.log('Time to send it to frontend: ' + showAllActresses);
     res.send(showAllActresses);
 })
 
@@ -162,7 +161,6 @@ app.get('/actresses', async(req, res) => {
 app.get('/actresses/:id', async(req, res) => {
     const {id} = req.params;
     const particularActress = await Actress.findById(id);
-    console.log('particularActress: ' + particularActress);
     res.send(particularActress);
 })
 
@@ -170,7 +168,6 @@ app.get('/actresses/:id', async(req, res) => {
 app.post('/actresses', upload.single('imgSrc'), async(req, res) => {
     // console.log('Hitted server-side');
     // console.log('req.body: ' + JSON.stringify(req.body)); // for multipart/form-data or FormData sent we have to stringify it to see the data otherwise it shows 'cannot convert object to primitive value' error
-    // console.log(req.file);
     const {name, firstSaw} = req.body;
     // console.log(name + ' ' + firstSaw);
     // as multer handles both reading file and uploading it to be able to read on backend so nodejs own tool fs is not needed
@@ -198,9 +195,17 @@ app.post('/actresses', upload.single('imgSrc'), async(req, res) => {
 
 // PUT /actresses/:id - to update the particular actress's data
 app.put('/actresses/:id', upload.single('imgSrc'), async(req, res) => {
-    console.log('Hitted PUT REST API');
-    console.log('req.body: ' + JSON.stringify(req.body));
-    console.log('req.file: ' + req.file);
+    // console.log('Hitted PUT REST API');
+    // console.log('req.body: ' + JSON.stringify(req.body));
+    // console.log('req.file: ' + JSON.stringify(req.file)); // only showing [Object Object] unlike post where it showed full details even though the file is getting stored in the public/images folder in both cases - so the solution to solve the [object, object] issue is to JSON.stringify it and it shows content, and got to know it was caused due to parsing of object couldn't happen here
+    const {id} = req.params;
+    const {name, firstSaw} = req.body;
+    const {originalname} = req.file;
+    const imagePath = `http://localhost:3000/images/${originalname}`;
+    const updateActressData = await Actress.findByIdAndUpdate(id, {$set: {name: name, imgSrc: imagePath, firstSaw: firstSaw}}, {new: true, runValidators: true});
+    console.log('updated data:' + updateActressData);
+    const navPath = '/actress';
+    res.redirect(navPath);
 })
 
 app.listen(3000, () => {
