@@ -1,38 +1,64 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from 'axios';
 
 function FavActressPage() {
-    const [id, setId] = useState(1);
-    const [img, setImg] = useState('');
+    const params = useParams();
+    const {id} = params;
+    const [allIds, setAllIds] = useState([]);
+    const [currId, setCurrId] = useState(id);
+    const [img, setImg] = useState(null);
     const [name, setName] = useState('');
     const [firstSaw, setFirstSaw] = useState('');
     const navigate = useNavigate();
 
+    console.log('first id: ' + id);
+    console.log('all ids: ' + allIds);
+    console.log('curr id: ' + currId);
+
     useEffect(() => {
         try {
+            const getAllIds = async() => {
+                const getIds = await axios.get('http://localhost:3000/actress/ids');
+                const data = getIds.data;
+                setAllIds([...data]);
+            }
+
             const getData = (async() => {
-                const jsonData = await axios.get(`http://localhost:3000/actress/${id}`);
+                if(currId !== id) {
+                    navigate(`/actress/${currId}`);
+                }
+                const jsonData = await axios.get(`http://localhost:3000/actress/${currId}`);
                 const singleActressData = jsonData.data;
+                console.log(singleActressData);
                 const actressImage = singleActressData.imgSrc;
                 setImg(actressImage);
                 setName(singleActressData.name);
                 setFirstSaw(singleActressData.firstSaw);
-                navigate(`/actress/${id}`);
             });
+            
+            getAllIds();
             getData();
         }
         catch(e) {
             console.log(e);
         }
-    }, [id]);
+    }, [currId]);
 
-    const handleNext = () => {
-        setId(prevId => prevId + 1);
+    const handleNext = (currId) => {
+        for(let i=0; i<allIds.length; i++) {
+            if(currId === allIds[i]) {
+                setCurrId(allIds[i+1]);
+            }
+        }
     }
 
-    const handlePrev = () => {
-        setId(prevId => prevId - 1);
+    const handlePrev = (currId) => {
+        for(let i=0; i<allIds.length; i++) {
+            if(allIds[i] === currId) {
+                setCurrId(allIds[i-1]);
+            } 
+        }
     }
 
     const newAddForm = () => {
@@ -42,15 +68,19 @@ function FavActressPage() {
     return (
         <div className="flex flex-col items-center gap-4">
             <div className="flex justify-center items-center gap-2">
-                {id !== 1 && <button className="p-2 border rounded bg-black text-white cursor-pointer" onClick={handlePrev}>Prev</button>}
-                <div className="flex flex-col justify-center items-center bg-black rounded-lg">
+                {(currId !== allIds[0]) && (
+                    <button className="p-2 border rounded bg-black text-white cursor-pointer" onClick={() => handlePrev(currId)}>Prev</button>
+                )}
+                <div className="flex flex-col justify-center items-center bg-black rounded-lg cursor-pointer" onClick={() => navigate(`/actress/${currId}/edit`)}>
                     <img src={img} alt="Image" className="rounded-lg" />
                     <div>
                         <h3 className="text-white">Name - {name}</h3>
                         <p className="text-white">First Saw - {firstSaw}</p>
                     </div>
                 </div>
-                {id !== 3 && <button className="p-2 border rounded bg-black text-white cursor-pointer" onClick={handleNext}>Next</button>}
+                {currId !== allIds[allIds.length-1] && (
+                    <button className="p-2 border rounded bg-black text-white cursor-pointer" onClick={() => handleNext(currId)}>Next</button>
+                )}
             </div>
             <button className="p-2 bg-black text-white rounded cursor-pointer" onClick={newAddForm}>Add new</button>
         </div>
