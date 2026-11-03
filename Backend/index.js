@@ -243,6 +243,13 @@ app.post('/notes', async(req, res) => {
     res.send(navPath);
 })
 
+// GET /notes/:id - to get a single note info
+app.get('/notes/:id', async(req, res) => {
+    const {id} = req.params;
+    const findSingleNote = await Note.findById(id);
+    res.send(findSingleNote);
+})
+
 app.listen(3000, () => {
     console.log('Backend listening on port 3000');
 })
