@@ -44,6 +44,10 @@ export default function AllNotesPage() {
         setIsSingleNoteVisible(false);
     }
 
+    const handleEditNavigation = () => {
+        navigate(`/notes/${singleNoteData._id}/edit`);
+    }
+
     return (
         <div>
             <Navbar />
@@ -63,10 +67,14 @@ export default function AllNotesPage() {
                     <button className='cursor-pointer bg-teal-200 fixed bottom-24 right-4 rounded-xl border p-4' onClick={handleCreateNoteNavigation}>Create Note +</button>
                 )}
                 {isSingleNoteVisible && (
-                    <div className='absolute border-1 bg-lime-200 min-h-96 min-w-4xl left-1/2 top-1/2 transform -translate-1/2 -translate-y-1/2 rounded-xl p-4'>
+                    <div className='absolute border-1 bg-lime-200 min-h-96 min-w-4xl left-1/2 top-1/2 transform -translate-1/2 -translate-y-1/2 rounded-xl p-4 flex flex-col justify-between'>
                         <div>
                             <h3>Title: {singleNoteData.title}</h3>
                             <p>Description: {singleNoteData.description}</p>
+                        </div>
+                        <div className='flex gap-2'>
+                            <button className='p-2 bg-blue-500 rounded-lg text-white cursor-pointer' onClick={handleEditNavigation}>Edit</button>
+                            <button className='p-2 bg-red-500 text-white rounded-lg cursor-pointer'>Delete</button>
                         </div>
                         <div className='absolute top-0 right-0 p-3 cursor-pointer rounded-tr-xl bg-red-500 text-white' onClick={handleCloseSingleNote}>
                             X

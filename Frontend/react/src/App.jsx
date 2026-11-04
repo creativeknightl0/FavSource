@@ -9,6 +9,7 @@ import ParticularActressPage from "./pages/ParticularActressPage";
 import EditParticularActressPage from "./pages/EditParticularActressPage";
 import AllNotesPage from './pages/AllNotesPage';
 import CreateNotePage from './pages/CreateNotePage';
+import EditNotePage from './pages/EditNotePage';
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
       {/* v3 solving notes saving issue with a CRUD - phase 2 for the FavSource */}
       <Route path="/notes" element={<AllNotesPage />} />
       <Route path="/notes/new" element={<CreateNotePage />} />
+      <Route path="/notes/:id/edit" element={<EditNotePage />} />
     </Routes>
   )
 }

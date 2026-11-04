@@ -250,6 +250,16 @@ app.get('/notes/:id', async(req, res) => {
     res.send(findSingleNote);
 })
 
+// PUT /notes/:id - to update a single note info
+app.put('/notes/:id', async(req, res) => {
+    const {id} = req.params;
+    const {title, description} = req.body;
+    const updateNote = await Note.findByIdAndUpdate(id, {$set: {title: title, description: description}}, {new: true, runValidators: true});
+    console.log(updateNote);
+    const navPath = '/notes';
+    res.send(navPath);
+})
+
 app.listen(3000, () => {
     console.log('Backend listening on port 3000');
 })
