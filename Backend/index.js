@@ -250,12 +250,21 @@ app.get('/notes/:id', async(req, res) => {
     res.send(findSingleNote);
 })
 
-// PUT /notes/:id - to update a single note info
+// PUT /notes/:id - to update a single note info with method that replaces the existing id matched row and places a new one with updated data
 app.put('/notes/:id', async(req, res) => {
     const {id} = req.params;
     const {title, description} = req.body;
     const updateNote = await Note.findByIdAndUpdate(id, {$set: {title: title, description: description}}, {new: true, runValidators: true});
-    console.log(updateNote);
+    console.log('PUT method update: ' + updateNote);
+    const navPath = '/notes';
+    res.send(navPath);
+})
+
+// DELETE /notes/:id - to delete a note
+app.delete('/notes/:id', async(req, res) => {
+    const {id} = req.params;
+    const deleteNote = await Note.findByIdAndDelete(id);
+    console.log('deleted note: ' + deleteNote);
     const navPath = '/notes';
     res.send(navPath);
 })

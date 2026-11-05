@@ -45,9 +45,9 @@ export default function EditNotePage() {
                 <h3 className='text-center'>PUT /notes/:id - to update the note</h3>
                 <form className='flex flex-col gap-2'>
                     <label htmlFor="title">Title:</label>
-                    <input type="text" name="title" id="title" className='border' defaultValue={title} onChange={(e) => setTitle(e.target.value)} />
+                    <input type="text" name="title" id="title" className='border pl-1 pr-1' defaultValue={title} onChange={(e) => setTitle(e.target.value)} />
                     <label htmlFor="description">Description:</label>
-                    <textarea name="description" id="description" className='border' defaultValue={description} onChange={(e) => setDescription(e.target.value)}></textarea>
+                    <textarea name="description" id="description" className='border pl-1 pr-1' defaultValue={description} onChange={(e) => setDescription(e.target.value)}></textarea>
                     <button className='p-2 bg-black text-white rounded-lg mt-4 cursor-pointer' onClick={handleUpdateFunc}>Submit</button>
                 </form>
                 <button className='p-2 border rounded-lg cursor-pointer mt-2' onClick={handleGoBack}>Go Back</button>

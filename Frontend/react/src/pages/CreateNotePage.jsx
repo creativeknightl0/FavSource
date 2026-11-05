@@ -31,14 +31,17 @@ export default function CreateNotePage() {
     return (
         <div className='flex flex-col'>
             <Navbar />
-            <form action={handleCreateFunc} className='flex flex-col p-4 gap-2'>
-                <label htmlFor="title">Title:</label>
-                <input type="text" name="title" id="title" className='border pl-1 pr-1' onChange={(e) => setTitle(e.target.value)} required />
-                <label htmlFor="description">Description:</label>
-                <textarea name="description" id="description" className='border pl-1 pr-1' onChange={(e) => setDescription(e.target.value)}></textarea>
-                <button className='p-2 text-white bg-black rounded-lg mt-4 cursor-pointer'>Submit</button>
-            </form>
-            <button className='m-4 p-2 bg-white border rounded-lg mt-2 cursor-pointer' onClick={handleGoBackNavigation}>Go Back</button>
+            <div className='flex flex-col p-4'>
+                <h3 className='text-center'>POST /notes - to create a new note</h3>
+                <form action={handleCreateFunc} className='flex flex-col gap-2'>
+                    <label htmlFor="title">Title:</label>
+                    <input type="text" name="title" id="title" className='border pl-1 pr-1' onChange={(e) => setTitle(e.target.value)} required />
+                    <label htmlFor="description">Description:</label>
+                    <textarea name="description" id="description" className='border pl-1 pr-1' onChange={(e) => setDescription(e.target.value)}></textarea>
+                    <button className='p-2 text-white bg-black rounded-lg mt-4 cursor-pointer'>Submit</button>
+                </form>
+                <button className='p-2 bg-white border rounded-lg mt-2 cursor-pointer' onClick={handleGoBackNavigation}>Go Back</button>
+            </div>
         </div>
     )
 }
