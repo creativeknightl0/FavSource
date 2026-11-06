@@ -9,7 +9,11 @@ export default function AllNotesPage() {
     const [isOverlayVisible, setIsOverlayVisible] = useState(false);
     const [isSingleNoteVisible, setIsSingleNoteVisible] = useState(false);
     const [singleNoteData, setSingleNoteData] = useState({});
+    const [searchInp, setSearchInp] = useState('');
     const navigate = useNavigate();
+
+    console.log('allNotesData: ' + allNotesData);
+    console.log('searchInp: ' + searchInp);
 
     useEffect(() => {
         const showAllNotesFunc = async() => {
@@ -19,7 +23,7 @@ export default function AllNotesPage() {
         }
         showAllNotesFunc();
     }, []);
-
+    
     const handleShowOverlay = () => {
         setIsOverlayVisible(!isOverlayVisible);
     }
@@ -45,17 +49,27 @@ export default function AllNotesPage() {
 
     return (
         <div>
-            <Navbar />
+            <Navbar setSearchInp={setSearchInp} />
             <div className='relative mt-4'>
                 <h2 className='text-center'>GET /notes - to show all the saved notes</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 p-4">
-                    {allNotesData.map(note => {
-                        return (
-                            <div key={note._id} className="border w-auto min-h-96 rounded-xl flex justify-center items-center bg-yellow-200 cursor-pointer" onClick={() => handleSingleNote(note._id)}>
-                                {note.title}
-                            </div>
-                        )
-                    })}
+                    {searchInp !== '' ? (
+                        allNotesData.filter(note => note.title.toLowerCase() === searchInp.toLowerCase()).map(note => {
+                            return (
+                                <div key={note._id} className='border w-auto min-h-96 rounded-xl flex justify-center items-center bg-yellow-200 cursor-pointer' onClick={() => handleSingleNote(note._id)}>
+                                    {note.title}
+                                </div>
+                            )
+                        })
+                    ) : ( 
+                        allNotesData.map(note => {
+                            return (
+                                <div key={note._id} className="border w-auto min-h-96 rounded-xl flex justify-center items-center bg-yellow-200 cursor-pointer" onClick={() => handleSingleNote(note._id)}>
+                                    {note.title}
+                                </div>
+                            )
+                        })
+                    )}
                 </div>
                 <button className='bg-red-200 fixed bottom-4 right-4 h-16 w-16 rounded-full cursor-pointer' onClick={handleShowOverlay}>+</button>
                 {isOverlayVisible && (
