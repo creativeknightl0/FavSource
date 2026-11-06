@@ -7,6 +7,10 @@ import AllActressesPage from "./pages/AllActressesPage";
 import NewActressAddPage from "./pages/NewActressAddPage";
 import ParticularActressPage from "./pages/ParticularActressPage";
 import EditParticularActressPage from "./pages/EditParticularActressPage";
+import AllNotesPage from './pages/AllNotesPage';
+import ShowSingleNotePage from './pages/ShowSingleNotePage';
+import CreateNotePage from './pages/CreateNotePage';
+import EditNotePage from './pages/EditNotePage';
 
 function App() {
 
@@ -18,11 +22,17 @@ function App() {
       <Route path="/actress/new" element={<NewActressAdd />} />
       <Route path="/actress/:id/edit" element={<EditExistingActress />} />
 
-      {/* v2 with real data inside the mongodb and with RESTful api callings */}
+      {/* v2 with real data inside the mongodb and with RESTful api callings - phase 1 for the FavSource */}
       <Route path="/actresses" element={<AllActressesPage />} />
       <Route path="/actresses/new" element={<NewActressAddPage />} />
       <Route path="/actresses/:id" element={<ParticularActressPage />} />
       <Route path="/actresses/:id/edit" element={<EditParticularActressPage />} />
+
+      {/* v3 solving notes saving issue with a CRUD - phase 2 for the FavSource */}
+      <Route path="/notes" element={<AllNotesPage />} />
+      <Route path="/notes/:id" element={<ShowSingleNotePage />} />
+      <Route path="/notes/new" element={<CreateNotePage />} />
+      <Route path="/notes/:id/edit" element={<EditNotePage />} />
     </Routes>
   )
 }

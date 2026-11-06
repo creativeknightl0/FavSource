@@ -4,6 +4,7 @@ const path = require('path');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const Actress = require('./models/actress');
+const Note = require('./models/note');
 const fs = require('fs');
 const multer = require('multer');
 const {v4: uuid} = require('uuid');
@@ -22,7 +23,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage});
 
-mongoose.connect('mongodb://localhost:27017/actress-real-data')
+mongoose.connect('mongodb://localhost:27017/favSource')
     .then(() => {
         console.log('Mongoose connected to mongodb successfuly :)');
     })
@@ -222,6 +223,49 @@ app.delete('/actresses/:id', async(req, res) => {
     const deleteActress = await Actress.findByIdAndDelete(id);
     console.log(deleteActress);
     const navPath = '/actresses';
+    res.send(navPath);
+})
+
+// REST APIs for Notes app
+
+// GET /notes - read all the notes with their info
+app.get('/notes', async(req, res) => {
+    const findAllNotes = await Note.find({});
+    res.send(findAllNotes);
+})
+
+// POST /notes - create a note
+app.post('/notes', async(req, res) => {
+    const {title, description} = req.body;
+    const newNote = new Note({title, description});
+    await newNote.save();
+    const navPath = '/notes';
+    res.send(navPath);
+})
+
+// GET /notes/:id - to get a single note info
+app.get('/notes/:id', async(req, res) => {
+    const {id} = req.params;
+    const findSingleNote = await Note.findById(id);
+    res.send(findSingleNote);
+})
+
+// PUT /notes/:id - to update a single note info with method that replaces the existing id matched row and places a new one with updated data
+app.put('/notes/:id', async(req, res) => {
+    const {id} = req.params;
+    const {title, description} = req.body;
+    const updateNote = await Note.findByIdAndUpdate(id, {$set: {title: title, description: description}}, {new: true, runValidators: true});
+    console.log('PUT method update: ' + updateNote);
+    const navPath = '/notes';
+    res.send(navPath);
+})
+
+// DELETE /notes/:id - to delete a note
+app.delete('/notes/:id', async(req, res) => {
+    const {id} = req.params;
+    const deleteNote = await Note.findByIdAndDelete(id);
+    console.log('deleted note: ' + deleteNote);
+    const navPath = '/notes';
     res.send(navPath);
 })
 
