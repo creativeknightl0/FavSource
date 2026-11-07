@@ -54,9 +54,9 @@ export default function AllNotesPage() {
                 <h2 className='text-center'>GET /notes - to show all the saved notes</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 p-4">
                     {searchInp !== '' ? (
-                        allNotesData.filter(note => note.title.toLowerCase() === searchInp.toLowerCase()).map(note => {
+                        allNotesData.filter(note => note.title.toLowerCase().split(' ').includes(searchInp.toLowerCase()) || note.title.toLowerCase().split('').includes(searchInp.toLowerCase()) || note.title.toLowerCase() === searchInp.toLowerCase()).map(note => {
                             return (
-                                <div key={note._id} className='border w-auto min-h-96 rounded-xl flex justify-center items-center bg-yellow-200 cursor-pointer' onClick={() => handleSingleNote(note._id)}>
+                                <div key={note._id} className='w-auto min-h-96 rounded-xl flex justify-center items-center bg-yellow-200 cursor-pointer' onClick={() => handleSingleNote(note._id)}>
                                     {note.title}
                                 </div>
                             )
@@ -64,7 +64,7 @@ export default function AllNotesPage() {
                     ) : ( 
                         allNotesData.map(note => {
                             return (
-                                <div key={note._id} className="border w-auto min-h-96 rounded-xl flex justify-center items-center bg-yellow-200 cursor-pointer" onClick={() => handleSingleNote(note._id)}>
+                                <div key={note._id} className="w-auto min-h-96 rounded-xl flex justify-center items-center bg-yellow-200 cursor-pointer" onClick={() => handleSingleNote(note._id)}>
                                     {note.title}
                                 </div>
                             )
@@ -73,7 +73,7 @@ export default function AllNotesPage() {
                 </div>
                 <button className='bg-red-200 fixed bottom-4 right-4 h-16 w-16 rounded-full cursor-pointer' onClick={handleShowOverlay}>+</button>
                 {isOverlayVisible && (
-                    <button className='cursor-pointer bg-teal-200 fixed bottom-24 right-4 rounded-xl border p-4' onClick={handleCreateNoteNavigation}>Create Note +</button>
+                    <button className='cursor-pointer bg-teal-200 fixed bottom-24 right-4 rounded-xl p-4' onClick={handleCreateNoteNavigation}>Create Note +</button>
                 )}
                 {isSingleNoteVisible && (
                     <ShowSingleNotePage singleNoteData={singleNoteData} handleCloseSingleNote={handleCloseSingleNote} />

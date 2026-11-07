@@ -15,7 +15,7 @@ export default function ShowSingleNotePage({singleNoteData, handleCloseSingleNot
     }
 
     return(
-        <div className='absolute border-1 bg-lime-200 min-h-96 min-w-xl left-1/2 top-1/2 transform -translate-1/2 -translate-y-1/2 rounded-xl p-4 flex flex-col justify-between'>
+        <div className='absolute bg-lime-200 min-h-96 min-w-xl left-1/2 top-1/2 transform -translate-1/2 -translate-y-1/2 rounded-xl p-4 flex flex-col justify-between'>
             <div className='mr-4'>
                 <h3>Title: {singleNoteData.title}</h3>
                 <p>Description: {singleNoteData.description}</p>
