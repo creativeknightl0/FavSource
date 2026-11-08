@@ -47,6 +47,20 @@ export default function AllNotesPage() {
         setSingleNoteData({});
     }
 
+    // logic function for multiple word searching
+    const multiWordSearch = (noteTitle) => {
+        console.log('multi word: ' + noteTitle);
+        const splitNoteTitle = noteTitle.split(' ');
+        const splitSearchInp = searchInp.split(' ');
+        for(let i=0; i<splitNoteTitle.length; i++) {
+            for(let j=0; j<splitSearchInp.length; j++) {
+                if(splitNoteTitle[i] === splitSearchInp[j]) {
+                    return true;
+                }
+            }
+        }
+    }
+
     return (
         <div>
             <Navbar setSearchInp={setSearchInp} />
@@ -54,7 +68,7 @@ export default function AllNotesPage() {
                 <h2 className='text-center'>GET /notes - to show all the saved notes</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 p-4">
                     {searchInp !== '' ? (
-                        allNotesData.filter(note => note.title.toLowerCase().split(' ').includes(searchInp.toLowerCase()) || note.title.toLowerCase().split('').includes(searchInp.toLowerCase()) || note.title.toLowerCase() === searchInp.toLowerCase()).map(note => {
+                        allNotesData.filter(note => note.title.toLowerCase().split(' ').includes(searchInp.toLowerCase()) || note.title.toLowerCase().split('').includes(searchInp.toLowerCase()) || note.title.toLowerCase() === searchInp.toLowerCase() || multiWordSearch(note.title)).map(note => {
                             return (
                                 <div key={note._id} className='w-auto min-h-96 rounded-xl flex justify-center items-center bg-yellow-200 cursor-pointer' onClick={() => handleSingleNote(note._id)}>
                                     {note.title}
