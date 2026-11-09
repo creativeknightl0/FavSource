@@ -61,6 +61,26 @@ export default function AllNotesPage() {
         }
     }
 
+    const multiLetterSearch = (noteTitle) => {
+        console.log('Multi letter, note title: ' + noteTitle);
+        const splitSearchInp = searchInp.split('');
+        let joinSplitSearchInp = '';
+        for(let i=0; i<splitSearchInp.length; i++) {
+            if(i>0) {
+                joinSplitSearchInp += splitSearchInp[i];
+                console.log('Joined search input: ' + joinSplitSearchInp);
+                if(noteTitle.includes(joinSplitSearchInp)) {
+                    console.log('Note title which hit the jackspot; ' + noteTitle);
+                    return true;
+                }
+            }
+            else {
+                console.log('first letter in splitted letters of search inp: ' + splitSearchInp[i]);
+                joinSplitSearchInp += splitSearchInp[i];
+            }
+        }
+    }
+
     return (
         <div>
             <Navbar setSearchInp={setSearchInp} />
@@ -68,7 +88,7 @@ export default function AllNotesPage() {
                 <h2 className='text-center'>GET /notes - to show all the saved notes</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 p-4">
                     {searchInp !== '' ? (
-                        allNotesData.filter(note => note.title.toLowerCase().split(' ').includes(searchInp.toLowerCase()) || note.title.toLowerCase().split('').includes(searchInp.toLowerCase()) || note.title.toLowerCase() === searchInp.toLowerCase() || multiWordSearch(note.title)).map(note => {
+                        allNotesData.filter(note => note.title.toLowerCase().split(' ').includes(searchInp.toLowerCase()) || note.title.toLowerCase().split('').includes(searchInp.toLowerCase()) || note.title.toLowerCase() === searchInp.toLowerCase() || multiWordSearch(note.title) || multiLetterSearch(note.title)).map(note => {
                             return (
                                 <div key={note._id} className='w-auto min-h-96 rounded-xl flex justify-center items-center bg-yellow-200 cursor-pointer' onClick={() => handleSingleNote(note._id)}>
                                     {note.title}
