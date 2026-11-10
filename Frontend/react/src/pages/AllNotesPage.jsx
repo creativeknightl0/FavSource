@@ -12,9 +12,6 @@ export default function AllNotesPage() {
     const [searchInp, setSearchInp] = useState('');
     const navigate = useNavigate();
 
-    console.log('allNotesData: ' + allNotesData);
-    console.log('searchInp: ' + searchInp);
-
     useEffect(() => {
         const showAllNotesFunc = async() => {
             const fetchNotes = await axios.get('http://localhost:3000/notes');
@@ -34,10 +31,7 @@ export default function AllNotesPage() {
 
     const handleSingleNote = async(id) => {
         setIsSingleNoteVisible(true);
-        console.log(id);
         const fetchSingleNoteInfo = await axios.get(`http://localhost:3000/notes/${id}`);
-        console.log(fetchSingleNoteInfo);
-        console.log(fetchSingleNoteInfo.data);
         const data = fetchSingleNoteInfo.data;
         setSingleNoteData(data);
     }
@@ -49,7 +43,6 @@ export default function AllNotesPage() {
 
     // logic function for multiple word searching
     const multiWordSearch = (noteTitle) => {
-        console.log('multi word: ' + noteTitle);
         const splitNoteTitle = noteTitle.split(' ');
         const splitSearchInp = searchInp.split(' ');
         for(let i=0; i<splitNoteTitle.length; i++) {
@@ -61,23 +54,10 @@ export default function AllNotesPage() {
         }
     }
 
+    // logic function for multi letter searching
     const multiLetterSearch = (noteTitle) => {
-        console.log('Multi letter, note title: ' + noteTitle);
-        const splitSearchInp = searchInp.split('');
-        let joinSplitSearchInp = '';
-        for(let i=0; i<splitSearchInp.length; i++) {
-            if(i>0) {
-                joinSplitSearchInp += splitSearchInp[i];
-                console.log('Joined search input: ' + joinSplitSearchInp);
-                if(noteTitle.includes(joinSplitSearchInp)) {
-                    console.log('Note title which hit the jackspot; ' + noteTitle);
-                    return true;
-                }
-            }
-            else {
-                console.log('first letter in splitted letters of search inp: ' + splitSearchInp[i]);
-                joinSplitSearchInp += splitSearchInp[i];
-            }
+        if(noteTitle.toLowerCase().includes(searchInp.toLowerCase())) {
+            return true;
         }
     }
 
