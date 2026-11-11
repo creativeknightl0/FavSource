@@ -2,6 +2,7 @@ import {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import Navbar from './components/Navbar';
 import axios from 'axios';
+import Editor from './components/Editor';
 
 export default function CreateNotePage() {
     const [title, setTitle] = useState('');
@@ -42,6 +43,7 @@ export default function CreateNotePage() {
                 </form>
                 <button className='p-2 bg-white border rounded-lg mt-2 cursor-pointer' onClick={handleGoBackNavigation}>Go Back</button>
             </div>
+            <Editor />
         </div>
     )
 }
