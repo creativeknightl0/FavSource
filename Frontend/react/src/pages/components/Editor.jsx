@@ -2,12 +2,12 @@ import {useEditor, EditorContent} from '@tiptap/react';
 // import {FloatingMenu, BubbleMenu} from '@tiptap/react/menus';
 import StarterKit from '@tiptap/starter-kit';
 import {TextStyleKit} from '@tiptap/extension-text-style'; {/* to get the collection of most common text styles */}
-import {TaskItem, TaskList} from '@tiptap/extension-list'; {/* TaskItem for li tag and TaskList for ul tag */}
+import {TaskList, TaskItem} from '@tiptap/extension-list'; {/* TaskList for ul tag and TaskItem for li tag */}
 import EditorMenu from './EditorMenu';
 
 export default function Editor() {
     const editor = useEditor({
-        extensions: [StarterKit, TextStyleKit, TaskItem.configure({nested: true}), TaskList], // define our extension array
+        extensions: [StarterKit, TextStyleKit, TaskList, TaskItem.configure({nested: true})], // define our extension array
         content: '<p>Hello Mr.Saver!</p>' // initial content
     })
 
