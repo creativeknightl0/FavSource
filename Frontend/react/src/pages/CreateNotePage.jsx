@@ -38,12 +38,12 @@ export default function CreateNotePage() {
                     <label htmlFor="title">Title:</label>
                     <input type="text" name="title" id="title" className='border pl-1 pr-1' onChange={(e) => setTitle(e.target.value)} required />
                     <label htmlFor="description">Description:</label>
-                    <textarea name="description" id="description" className='border pl-1 pr-1' onChange={(e) => setDescription(e.target.value)}></textarea>
+                    {/* <textarea name="description" id="description" className='border pl-1 pr-1' onChange={(e) => setDescription(e.target.value)}></textarea> */}
+                    <Editor />
                     <button className='p-2 text-white bg-black rounded-lg mt-4 cursor-pointer'>Submit</button>
                 </form>
                 <button className='p-2 bg-white border rounded-lg mt-2 cursor-pointer' onClick={handleGoBackNavigation}>Go Back</button>
             </div>
-            <Editor />
         </div>
     )
 }

@@ -12,7 +12,7 @@ export default function Editor() {
     })
 
     return (
-        <div className='border p-4 m-4'>
+        <div className='border p-4 flex flex-col gap-4'>
             <EditorMenu editor={editor} />
             {/* to show content on editor */}
             <EditorContent editor={editor} />
