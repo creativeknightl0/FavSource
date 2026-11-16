@@ -106,7 +106,7 @@ export default function EditorMenu({editor}) {
             </button>
             <button
                 onClick={() => editor.chain().focus().toggleOrderedList().run()}
-                className={editorState.isOrderedList ? 'is-active bg-pruple-300 rounded-lg p-2 cursor-pointer' : 'bg-gray-300 rounded-lg p-2 cursor-pointer'}
+                className={editorState.isOrderedList ? 'is-active bg-purple-300 rounded-lg p-2 cursor-pointer' : 'bg-gray-300 rounded-lg p-2 cursor-pointer'}
             >
                 Ordered list
             </button>

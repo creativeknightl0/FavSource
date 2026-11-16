@@ -23,7 +23,7 @@ export default function editorMenuStateSelector(ctx) {
         isHeading3: ctx.editor.isActive('heading', {level: 3}) ?? false,
         isHeading4: ctx.editor.isActive('heading', {level: 4}) ?? false,
         isHeading5: ctx.editor.isActive('heading', {level: 5}) ?? false,
-        isHeading6: ctx.editor.isActive('heading', {lebel: 6}) ?? false,
+        isHeading6: ctx.editor.isActive('heading', {level: 6}) ?? false,
 
         // Lists and blocks
         isBulletList: ctx.editor.isActive('bulletList') ?? false,
