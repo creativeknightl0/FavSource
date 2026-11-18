@@ -5,7 +5,7 @@ const noteSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    description: String
+    description: [Object]
 });
 
 const Note = mongoose.model('Note', noteSchema);
