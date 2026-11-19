@@ -237,8 +237,7 @@ app.get('/notes', async(req, res) => {
 // POST /notes - create a note
 app.post('/notes', async(req, res) => {
     const {title, description} = req.body;
-    const descriptionArrayOfObjectContent = description.content;
-    const newNote = new Note({title, descriptionArrayOfObjectContent});
+    const newNote = new Note({title, description});
     await newNote.save();
     const navPath = '/notes';
     res.send(navPath);

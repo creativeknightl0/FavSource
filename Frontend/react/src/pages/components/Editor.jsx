@@ -8,7 +8,7 @@ import EditorMenu from './EditorMenu';
 export default function Editor({setDescription}) {
     const editor = useEditor({
         extensions: [StarterKit, TextStyleKit, TaskList, TaskItem.configure({nested: true})], // define our extension array
-        content: '<p>Hello Mr.Saver!</p>', // initial content
+        // content: '<p>Hello Mr.Saver!</p>', // initial content
         onUpdate({editor}) { // to get the content of tiptap editor on the useState hook
             setDescription(editor.getJSON());
         }
