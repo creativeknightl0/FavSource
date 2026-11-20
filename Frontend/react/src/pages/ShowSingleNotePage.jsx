@@ -2,7 +2,7 @@ import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 export default function ShowSingleNotePage({singleNoteData, handleCloseSingleNote}) {
-    console.log('single note data: ' + JSON.stringify(singleNoteData));
+    console.log('single note data dup: ' + JSON.stringify(singleNoteData));
     const navigate = useNavigate();
     
     const handleEditNavigation = () => {
@@ -15,15 +15,15 @@ export default function ShowSingleNotePage({singleNoteData, handleCloseSingleNot
         navigate(data);
     }
 
-    const mapSingleNoteDescriptionContent = singleNoteData.description.content.map(mp => {
-        console.log(mp);
-    })
+    const mapSingleNoteDescriptionContent = singleNoteData.description.map(mp => mp.type);
+
+    console.log('mapSingleNoteDescriptionContent: ' + mapSingleNoteDescriptionContent);
 
     return(
         <div className='absolute bg-lime-200 min-h-96 min-w-xl left-1/2 top-1/2 transform -translate-1/2 -translate-y-1/2 rounded-xl p-4 flex flex-col justify-between'>
             <div className='mr-4'>
                 <h3>Title: {singleNoteData.title}</h3>
-                <p>Description: {mapSingleNoteDescriptionContent}</p>
+                {/* <p>Description: {mapSingleNoteDescriptionContent}</p> */}
             </div>
             <div className='flex gap-2'>
                 <button className='p-2 bg-blue-500 rounded-lg text-white cursor-pointer' onClick={handleEditNavigation}>Edit</button>

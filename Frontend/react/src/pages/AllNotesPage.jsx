@@ -34,8 +34,9 @@ export default function AllNotesPage() {
     const handleSingleNote = async(id) => {
         setIsSingleNoteVisible(true);
         const fetchSingleNoteInfo = await axios.get(`http://localhost:3000/notes/${id}`);
+        console.log('single note: ' + fetchSingleNoteInfo);
         const data = fetchSingleNoteInfo.data;
-        console.log(data);
+        console.log('single note data: ' + JSON.stringify(data));
         setSingleNoteData(data);
     }
 

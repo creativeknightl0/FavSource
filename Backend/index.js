@@ -237,7 +237,11 @@ app.get('/notes', async(req, res) => {
 // POST /notes - create a note
 app.post('/notes', async(req, res) => {
     const {title, description} = req.body;
-    const newNote = new Note({title, description});
+    console.log('json description: ' + JSON.stringify(description.content));
+    console.log('description: ' + description.content.map(mp => mp.content))
+    const contentDescription = description.content;
+    const newNote = new Note({title, description: contentDescription});
+    console.log('new note: ' + newNote);
     await newNote.save();
     const navPath = '/notes';
     res.send(navPath);
