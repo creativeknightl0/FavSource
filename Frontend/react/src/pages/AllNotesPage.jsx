@@ -12,6 +12,8 @@ export default function AllNotesPage() {
     const [searchInp, setSearchInp] = useState('');
     const navigate = useNavigate();
 
+    console.log('single note data on all notes page: ' + JSON.stringify(singleNoteData));
+
     useEffect(() => {
         const showAllNotesFunc = async() => {
             const fetchNotes = await axios.get('http://localhost:3000/notes');
@@ -32,7 +34,9 @@ export default function AllNotesPage() {
     const handleSingleNote = async(id) => {
         setIsSingleNoteVisible(true);
         const fetchSingleNoteInfo = await axios.get(`http://localhost:3000/notes/${id}`);
+        console.log('single note: ' + fetchSingleNoteInfo);
         const data = fetchSingleNoteInfo.data;
+        console.log('single note data: ' + JSON.stringify(data));
         setSingleNoteData(data);
     }
 
