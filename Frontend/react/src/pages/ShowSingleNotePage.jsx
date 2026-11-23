@@ -5,10 +5,18 @@ import axios from 'axios';
 export default function ShowSingleNotePage() {
     const [singleNoteTitle, setSingleNoteTitle] = useState('');
     const [singleNoteDescription, setSingleNoteDescription] = useState([]);
-    const [singleNoteDescriptionContent, setSingleNoteDescriptionContent] = useState([]);
     const params = useParams();
     const id = params.id;
     const navigate = useNavigate();
+    let paragraph = '';
+    let blockquote = '';
+    let codeBlock = ''; 
+    let h1 = ''; 
+    let h2 = ''; 
+    let h3 = ''; 
+    let h4 = ''; 
+    let h5 = ''; 
+    let h6 = '';
 
     useEffect(() => {
         const singleNoteFetchFunc = async() => {
@@ -41,17 +49,59 @@ export default function ShowSingleNotePage() {
         //     }
         // }
         singleNoteDescription.map(mp => {
-            if(mp.content) {
-                {mp.content.map(m => {
-                    if(m.content) {
-                        {m.content.map(c => {
-                            console.log(c.text)
-                        })}
-                    }
-                    else {
-                        console.log(m.text);
-                    }
-                })}
+            if(mp.type === 'paragraph') {
+                if(mp.content) {
+                    {mp.content.map(m => {
+                        if(m.content) {
+                            {m.content.map(c => {
+                                console.log('c.text for para: ' + c.text);
+                                paragraph += c.text;
+                                paragraph += ' ';
+                            })}
+                        }
+                        else {
+                            console.log('m.text for para: ' + m.text);
+                            paragraph += m.text;
+                            paragraph += ' ';
+                        }
+                    })}
+                }
+            }
+            if(mp.type === 'blockquote') {
+                if(mp.content) {
+                    {mp.content.map(m => {
+                        if(m.content) {
+                            {m.content.map(c => {
+                                console.log('c.text for blockquote: ' + c.text);
+                                blockquote += c.text;
+                                blockquote += ' ';
+                            })}
+                        }
+                        else {
+                            console.log('m.text for blockquote: ' + m.text);
+                            blockquote += m.text;
+                            blockquote += ' ';
+                        }
+                    })}
+                }
+            }
+            if(mp.type === 'codeBlock') {
+                if(mp.content) {
+                    {mp.content.map(m => {
+                        if(m.content) {
+                            {m.content.map(c => {
+                                console.log('c.text for codeBlock: ' + c.text);
+                                codeBlock += c.text;
+                                codeBlock += ' ';
+                            })}
+                        }
+                        else {
+                            console.log('m.text for codeBlock: ' + m.text);
+                            codeBlock += m.text;
+                            codeBlock += ' ';
+                        }
+                    })}
+                }
             }
         })
     }
@@ -62,13 +112,10 @@ export default function ShowSingleNotePage() {
         <div className='absolute bg-lime-200 min-h-96 min-w-xl left-1/2 top-1/2 transform -translate-1/2 -translate-y-1/2 rounded-xl p-4 flex flex-col justify-between'>
             <div className='mr-4'>
                 <h3>Title: {singleNoteTitle}</h3>
-                <div>Description: {singleNoteDescription.map(mp => {
-                        if(mp.content) {
-                            {mp.content.map(m => 
-                                <p>{m.text}</p>
-                            )}
-                        }
-                    })}
+                <div>Description: 
+                    <p>{paragraph}</p>
+                    <blockquote>{blockquote}</blockquote>
+                    <pre><code>{codeBlock}</code></pre>
                 </div>
             </div>
             <div className='flex gap-2'>
