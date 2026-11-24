@@ -17,6 +17,10 @@ export default function ShowSingleNotePage() {
     let h4 = ''; 
     let h5 = ''; 
     let h6 = '';
+    let bold = '';
+    let italic = '';
+    let strike = '';
+    let code = '';
 
     useEffect(() => {
         const singleNoteFetchFunc = async() => {
@@ -52,7 +56,31 @@ export default function ShowSingleNotePage() {
             if(mp.type === 'paragraph') {
                 if(mp.content) {
                     {mp.content.map(m => {
-                        if(m.content) {
+                        if(m.marks) {
+                            {m.marks.map(mark => {
+                                if(mark.type === 'bold') {
+                                    console.log('m.text for bold: ' + m.text);
+                                    bold += m.text;
+                                    bold += ' ';
+                                }
+                                else if(mark.type === 'italic') {
+                                    console.log('m.text for italics: ' + m.text);
+                                    italic += m.text;
+                                    italic += ' ';
+                                }
+                                else if(mark.type === 'strike') {
+                                    console.log('m.text for strike: ' + m.text);
+                                    strike += m.text;
+                                    strike += ' ';
+                                }
+                                else if(mark.type === 'code') {
+                                    console.log('m.text for code: ' + m.text);
+                                    code += m.text;
+                                    code += ' ';
+                                }
+                            })}
+                        }
+                        else if(m.content) {
                             {m.content.map(c => {
                                 console.log('c.text for para: ' + c.text);
                                 paragraph += c.text;
@@ -67,7 +95,7 @@ export default function ShowSingleNotePage() {
                     })}
                 }
             }
-            if(mp.type === 'blockquote') {
+            else if(mp.type === 'blockquote') {
                 if(mp.content) {
                     {mp.content.map(m => {
                         if(m.content) {
@@ -85,7 +113,7 @@ export default function ShowSingleNotePage() {
                     })}
                 }
             }
-            if(mp.type === 'codeBlock') {
+            else if(mp.type === 'codeBlock') {
                 if(mp.content) {
                     {mp.content.map(m => {
                         if(m.content) {
@@ -103,6 +131,62 @@ export default function ShowSingleNotePage() {
                     })}
                 }
             }
+            else if(mp.type === 'heading') {
+                if(mp.attrs.level === 1) {
+                    if(mp.content) {
+                        {mp.content.map(m => {
+                            console.log('m.text for h1: ' + m.text);
+                            h1 += m.text;
+                            h1 += ' ';
+                        })}
+                    }
+                }
+                if(mp.attrs.level === 2) {
+                    if(mp.content) {
+                        {mp.content.map(m => {
+                            console.log('m.text for h2: ' + m.text);
+                            h2 += m.text;
+                            h2 += ' ';
+                        })}
+                    }
+                }
+                if(mp.attrs.level === 3) {
+                    if(mp.content) {
+                        {mp.content.map(m => {
+                            console.log('m.text for h4: ' + m.text);
+                            h3 += m.text;
+                            h3 += ' ';
+                        })}
+                    }
+                }
+                if(mp.attrs.level === 4) {
+                    if(mp.content) {
+                        {mp.content.map(m => {
+                            console.log('m.text for h4: ' + m.text);
+                            h4 += m.text;
+                            h4 += ' ';
+                        })}
+                    }
+                }
+                if(mp.attrs.level === 5) {
+                    if(mp.content) {
+                        {mp.content.map(m => {
+                            console.log('m.text for h5: ' + m.text);
+                            h5 += m.text;
+                            h5 += ' ';
+                        })}
+                    }
+                }
+                if(mp.attrs.level === 6) {
+                    if(mp.content) {
+                        {mp.content.map(m => {
+                            console.log('m.text for h6: ' + m.text);
+                            h6 += m.text;
+                            h6 += ' ';
+                        })}
+                    }
+                }
+            }
         })
     }
 
@@ -116,6 +200,16 @@ export default function ShowSingleNotePage() {
                     <p>{paragraph}</p>
                     <blockquote>{blockquote}</blockquote>
                     <pre><code>{codeBlock}</code></pre>
+                    <p><strong>{bold}</strong></p>
+                    <p><em>{italic}</em></p>
+                    <p><s>{strike}</s></p>
+                    <p><code>{code}</code></p>
+                    <h1>{h1}</h1>
+                    <h2>{h2}</h2>
+                    <h3>{h3}</h3>
+                    <h4>{h4}</h4>
+                    <h5>{h5}</h5>
+                    <h6>{h6}</h6>
                 </div>
             </div>
             <div className='flex gap-2'>
