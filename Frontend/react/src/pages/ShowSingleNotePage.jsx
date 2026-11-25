@@ -21,6 +21,11 @@ export default function ShowSingleNotePage() {
     let italic = '';
     let strike = '';
     let code = '';
+    let bulletList = [];
+    let orderedList = [];
+    let taskList = [];
+    let horizontalRule = false;
+    let hardBreak = false;
 
     useEffect(() => {
         const singleNoteFetchFunc = async() => {
@@ -80,11 +85,15 @@ export default function ShowSingleNotePage() {
                                 }
                             })}
                         }
+                        if(m.type === 'hardBreak') {
+                            console.log('hardBreak bool value: ' + hardBreak);
+                            hardBreak = true;
+                        }
                         else if(m.content) {
                             {m.content.map(c => {
                                 console.log('c.text for para: ' + c.text);
                                 paragraph += c.text;
-                                paragraph += ' ';
+                                paragraph += ' ';  
                             })}
                         }
                         else {
@@ -187,6 +196,58 @@ export default function ShowSingleNotePage() {
                     }
                 }
             }
+            else if(mp.type === 'bulletList') {
+                if(mp.content) {
+                    {mp.content.map(m => {
+                        if(m.content) {
+                            {m.content.map(c => {
+                                if(c.content) {
+                                    {c.content.map(t => {
+                                        console.log('t.text for bulletList: ' + t.text);
+                                        bulletList.push(t.text);
+                                    })}
+                                }
+                            })}
+                        }
+                    })}
+                }
+            }
+            else if(mp.type === 'orderedList') {
+                if(mp.content) {
+                    {mp.content.map(m => {
+                        if(m.content) {
+                            {m.content.map(c => {
+                                if(c.content) {
+                                    {c.content.map(t => {
+                                        console.log('t.text for orderedList: ' + t.text);
+                                        orderedList.push(t.text);
+                                    })}
+                                }
+                            })}
+                        }
+                    })}
+                }
+            }
+            else if(mp.type === 'taskList') {
+                if(mp.content) {
+                    {mp.content.map(m => {
+                        if(m.content) {
+                            {m.content.map(c => {
+                                if(c.content) {
+                                    {c.content.map(t => {
+                                        console.log('t.text for taskList: ' + t.text);
+                                        taskList.push(t.text);
+                                    })}
+                                }
+                            })}
+                        }
+                    })}
+                }
+            }
+            else if(mp.type === 'horizontalRule') {
+                console.log('horizontalRule bool value: ' + horizontalRule);
+                horizontalRule = true;
+            }
         })
     }
 
@@ -196,7 +257,7 @@ export default function ShowSingleNotePage() {
         <div className='absolute bg-lime-200 min-h-96 min-w-xl left-1/2 top-1/2 transform -translate-1/2 -translate-y-1/2 rounded-xl p-4 flex flex-col justify-between'>
             <div className='mr-4'>
                 <h3>Title: {singleNoteTitle}</h3>
-                <div>Description: 
+                <div>Description:
                     <p>{paragraph}</p>
                     <blockquote>{blockquote}</blockquote>
                     <pre><code>{codeBlock}</code></pre>
@@ -210,6 +271,43 @@ export default function ShowSingleNotePage() {
                     <h4>{h4}</h4>
                     <h5>{h5}</h5>
                     <h6>{h6}</h6>
+                    <ul>
+                        {bulletList.map(b => {
+                            return (
+                                <li>{b}</li>
+                            )
+                        })}
+                    </ul>
+                    <ol>
+                        {orderedList.map(o => {
+                            return (
+                                <li>{o}</li>
+                            )
+                        })}
+                    </ol>
+                    <ul datatype='taskList'>
+                        {taskList.map(t => {
+                            return (
+                                <li>
+                                    <label>
+                                        <input aria-label="Task item checkbox for dbjbaksdn" type="checkbox" />
+                                        <span className="absolute width-[1px] h-[1px] p-0 m-[-1px] overflow-hidden clip-[rect(0px, 0px, 0px, 0px)] white-space nowrap border-[0px]">
+                                            Task item checkbox for {t}
+                                        </span>
+                                    </label>
+                                    <div>
+                                        <p>{t}</p>
+                                    </div>
+                                </li>
+                            )
+                        })}
+                    </ul>
+                    {horizontalRule === true && (
+                        <hr />
+                    )}
+                    {hardBreak === true && (
+                        <br />
+                    )}
                 </div>
             </div>
             <div className='flex gap-2'>
