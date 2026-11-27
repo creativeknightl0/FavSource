@@ -67,41 +67,34 @@ export default function ShowSingleNotePage() {
                             {m.marks.map(mark => {
                                 if(mark.type === 'bold') {
                                     console.log('m.text for bold: ' + m.text);
-                                    bold += m.text;
+                                    bold = m.text;
                                     contentArr.push({type: 'bold', content: bold});
                                 }
                                 else if(mark.type === 'italic') {
                                     console.log('m.text for italics: ' + m.text);
-                                    italic += m.text;
+                                    italic = m.text;
                                     contentArr.push({type: 'italic', content: italic});
                                 }
                                 else if(mark.type === 'strike') {
                                     console.log('m.text for strike: ' + m.text);
-                                    strike += m.text;
+                                    strike = m.text;
                                     contentArr.push({type: 'strike', content: strike});
                                 }
                                 else if(mark.type === 'code') {
                                     console.log('m.text for code: ' + m.text);
-                                    code += m.text;
+                                    code = m.text;
                                     contentArr.push({type: 'code', content: code});
                                 }
                             })}
                         }
-                        if(m.type === 'hardBreak') {
+                        else if(m.type === 'hardBreak') {
                             console.log('hardBreak bool value: ' + hardBreak);
                             hardBreak = true;
                             contentArr.push({type: 'hardBreak', content: hardBreak});
                         }
-                        else if(m.content) {
-                            {m.content.map(c => {
-                                console.log('c.text for para: ' + c.text);
-                                paragraph += c.text;
-                                contentArr.push({type: 'paragraph', content: paragraph});
-                            })}
-                        }
                         else {
-                            console.log('m.text for para: ' + m.text);
-                            paragraph += m.text;
+                            console.log('m.text for paragraph: ' + paragraph);
+                            paragraph = m.text;
                             contentArr.push({type: 'paragraph', content: paragraph});
                         }
                     })}
@@ -113,13 +106,13 @@ export default function ShowSingleNotePage() {
                         if(m.content) {
                             {m.content.map(c => {
                                 console.log('c.text for blockquote: ' + c.text);
-                                blockquote += c.text;
+                                blockquote = c.text;
                                 contentArr.push({type: 'blockquote', content: blockquote});
                             })}
                         }
                         else {
                             console.log('m.text for blockquote: ' + m.text);
-                            blockquote += m.text;
+                            blockquote = m.text;
                             contentArr.push({type: 'blockquote', content: blockquote});
                         }
                     })}
@@ -131,13 +124,13 @@ export default function ShowSingleNotePage() {
                         if(m.content) {
                             {m.content.map(c => {
                                 console.log('c.text for codeBlock: ' + c.text);
-                                codeBlock += c.text;
+                                codeBlock = c.text;
                                 contentArr.push({type: 'codeBlock', content: codeBlock});
                             })}
                         }
                         else {
                             console.log('m.text for codeBlock: ' + m.text);
-                            codeBlock += m.text;
+                            codeBlock = m.text;
                             contentArr.push({type: 'codeBlock', content: codeBlock});
                         }
                     })}
@@ -148,7 +141,7 @@ export default function ShowSingleNotePage() {
                     if(mp.content) {
                         {mp.content.map(m => {
                             console.log('m.text for h1: ' + m.text);
-                            h1 += m.text;
+                            h1 = m.text;
                             contentArr.push({type: 'h1', content: h1});
                         })}
                     }
@@ -157,7 +150,7 @@ export default function ShowSingleNotePage() {
                     if(mp.content) {
                         {mp.content.map(m => {
                             console.log('m.text for h2: ' + m.text);
-                            h2 += m.text;
+                            h2 = m.text;
                             contentArr.push({type: 'h2', content: h2});
                         })}
                     }
@@ -166,7 +159,7 @@ export default function ShowSingleNotePage() {
                     if(mp.content) {
                         {mp.content.map(m => {
                             console.log('m.text for h3: ' + m.text);
-                            h3 += m.text;
+                            h3 = m.text;
                             contentArr.push({type: 'h3', content: h3});
                         })}
                     }
@@ -175,7 +168,7 @@ export default function ShowSingleNotePage() {
                     if(mp.content) {
                         {mp.content.map(m => {
                             console.log('m.text for h4: ' + m.text);
-                            h4 += m.text;
+                            h4 = m.text;
                             contentArr.push({type: 'h4', content: h4});
                         })}
                     }
@@ -184,7 +177,7 @@ export default function ShowSingleNotePage() {
                     if(mp.content) {
                         {mp.content.map(m => {
                             console.log('m.text for h5: ' + m.text);
-                            h5 += m.text;
+                            h5 = m.text;
                             contentArr.push({type: 'h5', content: h5});
                         })}
                     }
@@ -193,7 +186,7 @@ export default function ShowSingleNotePage() {
                     if(mp.content) {
                         {mp.content.map(m => {
                             console.log('m.text for h6: ' + m.text);
-                            h6 += m.text;
+                            h6 = m.text;
                             contentArr.push({type: 'h6', content: h6});
                         })}
                     }
@@ -208,12 +201,12 @@ export default function ShowSingleNotePage() {
                                     {c.content.map(t => {
                                         console.log('t.text for bulletList: ' + t.text);
                                         bulletList.push(t.text);
-                                        contentArr.push({type: 'bulletList', content: bulletList});
                                     })}
                                 }
                             })}
                         }
                     })}
+                    contentArr.push({type: 'bulletList', content: bulletList});
                 }
             }
             else if(mp.type === 'orderedList') {
@@ -225,12 +218,12 @@ export default function ShowSingleNotePage() {
                                     {c.content.map(t => {
                                         console.log('t.text for orderedList: ' + t.text);
                                         orderedList.push(t.text);
-                                        contentArr.push({type: 'orderedList', content: orderedList});
                                     })}
                                 }
                             })}
                         }
                     })}
+                    contentArr.push({type: 'orderedList', content: orderedList});
                 }
             }
             else if(mp.type === 'taskList') {
@@ -242,12 +235,12 @@ export default function ShowSingleNotePage() {
                                     {c.content.map(t => {
                                         console.log('t.text for taskList: ' + t.text);
                                         taskList.push(t.text);
-                                        contentArr.push({type: 'taskList', content: taskList});
                                     })}
                                 }
                             })}
                         }
                     })}
+                    contentArr.push({type: 'taskList', content: taskList});
                 }
             }
             else if(mp.type === 'horizontalRule') {
@@ -259,7 +252,7 @@ export default function ShowSingleNotePage() {
     }
 
     loopDescription();
-    console.log('contentArr: ' + contentArr);
+    console.log('contentArr: ' + JSON.stringify(contentArr));
 
     return(
         <div className='flex flex-col'>
@@ -271,83 +264,76 @@ export default function ShowSingleNotePage() {
                         {contentArr.map(content => {
                             return (
                                 <div>
-                                    {content.type} : {content.content}
-                                </div>
-                            )
-                        })}
-                        <br />
-                        <p>------------------------------------</p>
-                        {contentArr.map(content => {
-                            return (
-                                <div>
-                                    {content.type === 'blockquote' ? (
+                                    {content.type === 'paragraph' ? (
+                                        <p>{content.content}</p>
+                                    ) : content.type === 'blockquote' ? (
                                         <blockquote>{content.content}</blockquote>
                                     ) : content.type === 'codeBlock' ? (
                                         <pre><code>{content.content}</code></pre>
-                                    ) : content.type === 'bold' ? (
+                                    ) : content.type === 'h1' ? (
+                                        <h1>{content.content}</h1>
+                                    ) : content.type === 'h2' ? (
+                                        <h2>{content.content}</h2>
+                                    ) : content.type === 'h3' ? (
+                                        <h3>{content.content}</h3>
+                                    ) : content.type === 'h4' ? (
+                                        <h4>{content.content}</h4>
+                                    ) : content.type === 'h5' ? (
+                                        <h5>{content.content}</h5>
+                                    ) : content.type === 'h6' ? (
+                                        <h6>{content.content}</h6>
+                                    ): content.type === 'bold' ? (
                                         <p><strong>{content.content}</strong></p>
                                     ) : content.type === 'italic' ? (
                                         <p><em>{content.content}</em></p>
                                     ) : content.type === 'strike' ? (
                                         <p><s>{content.content}</s></p>
-                                    ) : content.type === 'code' && (
+                                    ) : content.type === 'code' ? (
                                         <code>{content.content}</code>
+                                    ) 
+                                    : content.type === 'bulletList' ? (
+                                        <ul>
+                                            {content.content.map(str => {
+                                                return (
+                                                    <li>{str}</li>
+                                                )
+                                            })}
+                                        </ul>
+                                    ) 
+                                    : content.type === 'orderedList' ? (
+                                        <ol>
+                                            {content.content.map(str => {
+                                                return (
+                                                    <li>{str}</li>
+                                                )
+                                            })}
+                                        </ol>
+                                    ) : content.type === 'taskList' ? (
+                                        <ul datatype='taskList'>
+                                            {content.content.map(str => {
+                                                return (
+                                                    <li>
+                                                        <label>
+                                                            <input aria-label="Task item checkbox" type="checkbox" />
+                                                            <span className="absolute width-[1px] h-[1px] p-0 m-[-1px] overflow-hidden clip-[rect(0px, 0px, 0px, 0px)] white-space nowrap border-[0px]">
+                                                                Task item checkbox
+                                                            </span>
+                                                        </label>
+                                                        <div>
+                                                            <p>{str}</p>
+                                                        </div>
+                                                    </li>
+                                                )
+                                            })}
+                                        </ul>
+                                    ) : content.type === 'horizontalRule' && content.content === true ? (
+                                        <hr />
+                                    ) : content.type === 'hardBreak' && content.content === true && (
+                                        <br />
                                     )}
                                 </div>
                             )
                         })}
-                        <br />
-                        <p>-----------------------------</p>
-                        <p>{paragraph}</p>
-                        <blockquote>{blockquote}</blockquote>
-                        <pre><code>{codeBlock}</code></pre>
-                        <p><strong>{bold}</strong></p>
-                        <p><em>{italic}</em></p>
-                        <p><s>{strike}</s></p>
-                        <p><code>{code}</code></p>
-                        <h1>{h1}</h1>
-                        <h2>{h2}</h2>
-                        <h3>{h3}</h3>
-                        <h4>{h4}</h4>
-                        <h5>{h5}</h5>
-                        <h6>{h6}</h6>
-                        <ul>
-                            {bulletList.map(b => {
-                                return (
-                                    <li>{b}</li>
-                                )
-                            })}
-                        </ul>
-                        <ol>
-                            {orderedList.map(o => {
-                                return (
-                                    <li>{o}</li>
-                                )
-                            })}
-                        </ol>
-                        <ul datatype='taskList'>
-                            {taskList.map(t => {
-                                return (
-                                    <li>
-                                        <label>
-                                            <input aria-label="Task item checkbox for dbjbaksdn" type="checkbox" />
-                                            <span className="absolute width-[1px] h-[1px] p-0 m-[-1px] overflow-hidden clip-[rect(0px, 0px, 0px, 0px)] white-space nowrap border-[0px]">
-                                                Task item checkbox for {t}
-                                            </span>
-                                        </label>
-                                        <div>
-                                            <p>{t}</p>
-                                        </div>
-                                    </li>
-                                )
-                            })}
-                        </ul>
-                        {horizontalRule === true && (
-                            <hr />
-                        )}
-                        {hardBreak === true && (
-                            <br />
-                        )}
                     </div>
                 </div>
                 <div className='flex gap-2'>
