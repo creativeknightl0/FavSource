@@ -260,83 +260,86 @@ export default function ShowSingleNotePage() {
             <div className='flex flex-col p-4'>
                 <div className='flex flex-col gap-2'>
                     <h3>Title: {singleNoteTitle}</h3>
-                    <div>Description:
-                        {contentArr.map(content => {
-                            return (
-                                <div>
-                                    {content.type === 'paragraph' ? (
-                                        <p>{content.content}</p>
-                                    ) : content.type === 'blockquote' ? (
-                                        <blockquote>{content.content}</blockquote>
-                                    ) : content.type === 'codeBlock' ? (
-                                        <pre><code>{content.content}</code></pre>
-                                    ) : content.type === 'h1' ? (
-                                        <h1>{content.content}</h1>
-                                    ) : content.type === 'h2' ? (
-                                        <h2>{content.content}</h2>
-                                    ) : content.type === 'h3' ? (
-                                        <h3>{content.content}</h3>
-                                    ) : content.type === 'h4' ? (
-                                        <h4>{content.content}</h4>
-                                    ) : content.type === 'h5' ? (
-                                        <h5>{content.content}</h5>
-                                    ) : content.type === 'h6' ? (
-                                        <h6>{content.content}</h6>
-                                    ): content.type === 'bold' ? (
-                                        <p><strong>{content.content}</strong></p>
-                                    ) : content.type === 'italic' ? (
-                                        <p><em>{content.content}</em></p>
-                                    ) : content.type === 'strike' ? (
-                                        <p><s>{content.content}</s></p>
-                                    ) : content.type === 'code' ? (
-                                        <code>{content.content}</code>
-                                    ) 
-                                    : content.type === 'bulletList' ? (
-                                        <ul>
-                                            {content.content.map(str => {
-                                                return (
-                                                    <li>{str}</li>
-                                                )
-                                            })}
-                                        </ul>
-                                    ) 
-                                    : content.type === 'orderedList' ? (
-                                        <ol>
-                                            {content.content.map(str => {
-                                                return (
-                                                    <li>{str}</li>
-                                                )
-                                            })}
-                                        </ol>
-                                    ) : content.type === 'taskList' ? (
-                                        <ul datatype='taskList'>
-                                            {content.content.map(str => {
-                                                return (
-                                                    <li>
-                                                        <label>
-                                                            <input aria-label="Task item checkbox" type="checkbox" />
-                                                            <span className="absolute width-[1px] h-[1px] p-0 m-[-1px] overflow-hidden clip-[rect(0px, 0px, 0px, 0px)] white-space nowrap border-[0px]">
-                                                                Task item checkbox
-                                                            </span>
-                                                        </label>
-                                                        <div>
-                                                            <p>{str}</p>
-                                                        </div>
-                                                    </li>
-                                                )
-                                            })}
-                                        </ul>
-                                    ) : content.type === 'horizontalRule' && content.content === true ? (
-                                        <hr />
-                                    ) : content.type === 'hardBreak' && content.content === true && (
-                                        <br />
-                                    )}
-                                </div>
-                            )
-                        })}
+                    <div>
+                        <h3>Description:</h3>
+                        <div className='border p-4 flex flex-col'>
+                            {contentArr.map(content => {
+                                return (
+                                    <div id="content">
+                                        {content.type === 'paragraph' ? (
+                                            <p>{content.content}</p>
+                                        ) : content.type === 'blockquote' ? (
+                                            <blockquote>{content.content}</blockquote>
+                                        ) : content.type === 'codeBlock' ? (
+                                            <pre><code>{content.content}</code></pre>
+                                        ) : content.type === 'h1' ? (
+                                            <h1>{content.content}</h1>
+                                        ) : content.type === 'h2' ? (
+                                            <h2>{content.content}</h2>
+                                        ) : content.type === 'h3' ? (
+                                            <h3>{content.content}</h3>
+                                        ) : content.type === 'h4' ? (
+                                            <h4>{content.content}</h4>
+                                        ) : content.type === 'h5' ? (
+                                            <h5>{content.content}</h5>
+                                        ) : content.type === 'h6' ? (
+                                            <h6>{content.content}</h6>
+                                        ): content.type === 'bold' ? (
+                                            <p><strong>{content.content}</strong></p>
+                                        ) : content.type === 'italic' ? (
+                                            <p><em>{content.content}</em></p>
+                                        ) : content.type === 'strike' ? (
+                                            <p><s>{content.content}</s></p>
+                                        ) : content.type === 'code' ? (
+                                            <code>{content.content}</code>
+                                        ) 
+                                        : content.type === 'bulletList' ? (
+                                            <ul>
+                                                {content.content.map(str => {
+                                                    return (
+                                                        <li>{str}</li>
+                                                    )
+                                                })}
+                                            </ul>
+                                        ) 
+                                        : content.type === 'orderedList' ? (
+                                            <ol>
+                                                {content.content.map(str => {
+                                                    return (
+                                                        <li>{str}</li>
+                                                    )
+                                                })}
+                                            </ol>
+                                        ) : content.type === 'taskList' ? (
+                                            <ul datatype='taskList'>
+                                                {content.content.map(str => {
+                                                    return (
+                                                        <li>
+                                                            <label>
+                                                                <input aria-label="Task item checkbox" type="checkbox" />
+                                                                <span className="absolute width-[1px] h-[1px] p-0 m-[-1px] overflow-hidden clip-[rect(0px, 0px, 0px, 0px)] white-space nowrap border-[0px]">
+                                                                    Task item checkbox
+                                                                </span>
+                                                            </label>
+                                                            <div>
+                                                                <p>{str}</p>
+                                                            </div>
+                                                        </li>
+                                                    )
+                                                })}
+                                            </ul>
+                                        ) : content.type === 'horizontalRule' && content.content === true ? (
+                                            <hr />
+                                        ) : content.type === 'hardBreak' && content.content === true && (
+                                            <br />
+                                        )}
+                                    </div>
+                                )
+                            })}
+                        </div>
                     </div>
                 </div>
-                <div className='flex gap-2'>
+                <div className='flex gap-2 mt-4'>
                     <button className='p-2 bg-blue-500 rounded-lg text-white cursor-pointer' onClick={handleEditNavigation}>Edit</button>
                     <form>
                         <button className='p-2 bg-red-500 text-white rounded-lg cursor-pointer' onClick={handleDeleteNote}>Delete</button>

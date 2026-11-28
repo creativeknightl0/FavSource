@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import Navbar from './components/Navbar';
 import axios from 'axios';
+import Editor from './components/Editor';
 
 export default function EditNotePage() {
     const [title, setTitle] = useState('');
@@ -9,6 +10,8 @@ export default function EditNotePage() {
     const navigate = useNavigate();
     const params = useParams();
     const id = params.id;
+
+    console.log('description: ' + JSON.stringify(description));
 
     useEffect(() => {
         const fetchInitialFunc = async() => {
@@ -47,8 +50,8 @@ export default function EditNotePage() {
                     <label htmlFor="title">Title:</label>
                     <input type="text" name="title" id="title" className='border pl-1 pr-1' defaultValue={title} onChange={(e) => setTitle(e.target.value)} />
                     <label htmlFor="description">Description:</label>
-                    <textarea name="description" id="description" className='border pl-1 pr-1' defaultValue={description} onChange={(e) => setDescription(e.target.value)}></textarea>
-                    <button className='p-2 bg-black text-white rounded-lg mt-4 cursor-pointer' onClick={handleUpdateFunc}>Submit</button>
+                    <Editor description={description} setDescription={setDescription} />
+                    <button className='p-2 bg-black text-white rounded-lg mt-4 cursor-pointer' onClick={handleUpdateFunc}>Edit</button>
                 </form>
                 <button className='p-2 border rounded-lg cursor-pointer mt-2' onClick={handleGoBack}>Go Back</button>
             </div>
