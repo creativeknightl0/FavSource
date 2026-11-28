@@ -2,13 +2,10 @@ import {useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import Navbar from './components/Navbar';
 import axios from 'axios';
-import ShowSingleNotePage from './ShowSingleNotePage';
 
 export default function AllNotesPage() {
     const [allNotesData, setAllNotesData] = useState([]);
     const [isOverlayVisible, setIsOverlayVisible] = useState(false);
-    const [isSingleNoteVisible, setIsSingleNoteVisible] = useState(false);
-    const [singleNoteData, setSingleNoteData] = useState({});
     const [searchInp, setSearchInp] = useState('');
     const navigate = useNavigate();
 
@@ -29,16 +26,8 @@ export default function AllNotesPage() {
         navigate('/notes/new');
     }
 
-    const handleSingleNote = async(id) => {
-        setIsSingleNoteVisible(true);
-        const fetchSingleNoteInfo = await axios.get(`http://localhost:3000/notes/${id}`);
-        const data = fetchSingleNoteInfo.data;
-        setSingleNoteData(data);
-    }
-
-    const handleCloseSingleNote = () => {
-        setIsSingleNoteVisible(false);
-        setSingleNoteData({});
+    const handleSingleNoteNavigation = (id) => {
+        navigate(`/notes/${id}`);
     }
 
     // logic function for multiple word searching
@@ -70,7 +59,7 @@ export default function AllNotesPage() {
                     {searchInp !== '' ? (
                         allNotesData.filter(note => note.title.toLowerCase().split(' ').includes(searchInp.toLowerCase()) || note.title.toLowerCase().split('').includes(searchInp.toLowerCase()) || note.title.toLowerCase() === searchInp.toLowerCase() || multiWordSearch(note.title) || multiLetterSearch(note.title)).map(note => {
                             return (
-                                <div key={note._id} className='w-auto min-h-96 rounded-xl flex justify-center items-center bg-yellow-200 cursor-pointer' onClick={() => handleSingleNote(note._id)}>
+                                <div key={note._id} className='w-auto min-h-96 rounded-xl flex justify-center items-center bg-yellow-200 cursor-pointer' onClick={() => handleSingleNoteNavigation(note._id)}>
                                     {note.title}
                                 </div>
                             )
@@ -78,7 +67,7 @@ export default function AllNotesPage() {
                     ) : ( 
                         allNotesData.map(note => {
                             return (
-                                <div key={note._id} className="w-auto min-h-96 rounded-xl flex justify-center items-center bg-yellow-200 cursor-pointer" onClick={() => handleSingleNote(note._id)}>
+                                <div key={note._id} className="w-auto min-h-96 rounded-xl flex justify-center items-center bg-yellow-200 cursor-pointer" onClick={() => handleSingleNoteNavigation(note._id)}>
                                     {note.title}
                                 </div>
                             )
@@ -88,9 +77,6 @@ export default function AllNotesPage() {
                 <button className='bg-red-200 fixed bottom-4 right-4 h-16 w-16 rounded-full cursor-pointer' onClick={handleShowOverlay}>+</button>
                 {isOverlayVisible && (
                     <button className='cursor-pointer bg-teal-200 fixed bottom-24 right-4 rounded-xl p-4' onClick={handleCreateNoteNavigation}>Create Note +</button>
-                )}
-                {isSingleNoteVisible && (
-                    <ShowSingleNotePage singleNoteData={singleNoteData} handleCloseSingleNote={handleCloseSingleNote} />
                 )}
             </div>
         </div>

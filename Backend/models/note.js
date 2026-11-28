@@ -5,7 +5,10 @@ const noteSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    description: String
+    description: {
+        type: [Object],
+        required: true
+    }
 });
 
 const Note = mongoose.model('Note', noteSchema);
